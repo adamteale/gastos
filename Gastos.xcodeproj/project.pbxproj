@@ -10,9 +10,19 @@
 		0372DC402930F24400F4C1F1 /* GastosApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0372DC3F2930F24400F4C1F1 /* GastosApp.swift */; };
 		0372DC422930F24400F4C1F1 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0372DC412930F24400F4C1F1 /* Persistence.swift */; };
 		0372DC452930F24400F4C1F1 /* Gastos.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0372DC432930F24400F4C1F1 /* Gastos.xcdatamodeld */; };
-		0372DC472930F24400F4C1F1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0372DC462930F24400F4C1F1 /* ContentView.swift */; };
+		0372DC472930F24400F4C1F1 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0372DC462930F24400F4C1F1 /* HomeView.swift */; };
 		0372DC492930F24500F4C1F1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0372DC482930F24500F4C1F1 /* Assets.xcassets */; };
 		0372DC4D2930F24500F4C1F1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0372DC4C2930F24500F4C1F1 /* Preview Assets.xcassets */; };
+		0372DC5E2930F34B00F4C1F1 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0372DC5D2930F34B00F4C1F1 /* HomeViewModel.swift */; };
+		0372DC612931208C00F4C1F1 /* CancelBag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0372DC602931208C00F4C1F1 /* CancelBag.swift */; };
+		0372DC6D2931412500F4C1F1 /* ExpenseDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0372DC6C2931412500F4C1F1 /* ExpenseDetailView.swift */; };
+		0372DC6F2931412F00F4C1F1 /* ExpenseDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0372DC6E2931412F00F4C1F1 /* ExpenseDetailViewModel.swift */; };
+		0372DC8129314E3C00F4C1F1 /* CategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0372DC7E29314E3C00F4C1F1 /* CategoryViewModel.swift */; };
+		0372DC8229314E3C00F4C1F1 /* CategoryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0372DC8029314E3C00F4C1F1 /* CategoryDetailView.swift */; };
+		0372DC852931721E00F4C1F1 /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0372DC842931721E00F4C1F1 /* Formatters.swift */; };
+		0372DC872932604700F4C1F1 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0372DC862932604700F4C1F1 /* Launch Screen.storyboard */; };
+		0372DC8E2932687C00F4C1F1 /* TagsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0372DC8B2932687C00F4C1F1 /* TagsViewModel.swift */; };
+		0372DC8F2932687C00F4C1F1 /* TagDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0372DC8D2932687C00F4C1F1 /* TagDetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,10 +30,21 @@
 		0372DC3F2930F24400F4C1F1 /* GastosApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GastosApp.swift; sourceTree = "<group>"; };
 		0372DC412930F24400F4C1F1 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		0372DC442930F24400F4C1F1 /* Gastos.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Gastos.xcdatamodel; sourceTree = "<group>"; };
-		0372DC462930F24400F4C1F1 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		0372DC462930F24400F4C1F1 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		0372DC482930F24500F4C1F1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0372DC4A2930F24500F4C1F1 /* Gastos.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Gastos.entitlements; sourceTree = "<group>"; };
 		0372DC4C2930F24500F4C1F1 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		0372DC5D2930F34B00F4C1F1 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		0372DC5F2930F67900F4C1F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		0372DC602931208C00F4C1F1 /* CancelBag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelBag.swift; sourceTree = "<group>"; };
+		0372DC6C2931412500F4C1F1 /* ExpenseDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseDetailView.swift; sourceTree = "<group>"; };
+		0372DC6E2931412F00F4C1F1 /* ExpenseDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseDetailViewModel.swift; sourceTree = "<group>"; };
+		0372DC7E29314E3C00F4C1F1 /* CategoryViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryViewModel.swift; sourceTree = "<group>"; };
+		0372DC8029314E3C00F4C1F1 /* CategoryDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryDetailView.swift; sourceTree = "<group>"; };
+		0372DC842931721E00F4C1F1 /* Formatters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatters.swift; sourceTree = "<group>"; };
+		0372DC862932604700F4C1F1 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		0372DC8B2932687C00F4C1F1 /* TagsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagsViewModel.swift; sourceTree = "<group>"; };
+		0372DC8D2932687C00F4C1F1 /* TagDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,13 +77,15 @@
 		0372DC3E2930F24400F4C1F1 /* Gastos */ = {
 			isa = PBXGroup;
 			children = (
+				0372DC5F2930F67900F4C1F1 /* Info.plist */,
+				0372DC542930F24E00F4C1F1 /* Modules */,
 				0372DC3F2930F24400F4C1F1 /* GastosApp.swift */,
 				0372DC412930F24400F4C1F1 /* Persistence.swift */,
-				0372DC462930F24400F4C1F1 /* ContentView.swift */,
 				0372DC482930F24500F4C1F1 /* Assets.xcassets */,
 				0372DC4A2930F24500F4C1F1 /* Gastos.entitlements */,
 				0372DC432930F24400F4C1F1 /* Gastos.xcdatamodeld */,
 				0372DC4B2930F24500F4C1F1 /* Preview Content */,
+				0372DC862932604700F4C1F1 /* Launch Screen.storyboard */,
 			);
 			path = Gastos;
 			sourceTree = "<group>";
@@ -73,6 +96,167 @@
 				0372DC4C2930F24500F4C1F1 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		0372DC542930F24E00F4C1F1 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				0372DC7B29314E3C00F4C1F1 /* Categories */,
+				0372DC68293140AB00F4C1F1 /* ExpenseDetail */,
+				0372DC582930F2D900F4C1F1 /* Home */,
+				0372DC572930F2D200F4C1F1 /* Presentation */,
+				0372DC882932687C00F4C1F1 /* Tags */,
+				0372DC602931208C00F4C1F1 /* CancelBag.swift */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		0372DC572930F2D200F4C1F1 /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				0372DC842931721E00F4C1F1 /* Formatters.swift */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		0372DC582930F2D900F4C1F1 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				0372DC592930F2E700F4C1F1 /* Data */,
+				0372DC5A2930F30B00F4C1F1 /* Presentation */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		0372DC592930F2E700F4C1F1 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		0372DC5A2930F30B00F4C1F1 /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				0372DC5C2930F33D00F4C1F1 /* ViewModel */,
+				0372DC5B2930F33900F4C1F1 /* View */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		0372DC5B2930F33900F4C1F1 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				0372DC462930F24400F4C1F1 /* HomeView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		0372DC5C2930F33D00F4C1F1 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				0372DC5D2930F34B00F4C1F1 /* HomeViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		0372DC68293140AB00F4C1F1 /* ExpenseDetail */ = {
+			isa = PBXGroup;
+			children = (
+				0372DC69293140B200F4C1F1 /* Presentation */,
+			);
+			path = ExpenseDetail;
+			sourceTree = "<group>";
+		};
+		0372DC69293140B200F4C1F1 /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				0372DC6B293140BC00F4C1F1 /* ViewModel */,
+				0372DC6A293140B900F4C1F1 /* View */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		0372DC6A293140B900F4C1F1 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				0372DC6C2931412500F4C1F1 /* ExpenseDetailView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		0372DC6B293140BC00F4C1F1 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				0372DC6E2931412F00F4C1F1 /* ExpenseDetailViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		0372DC7B29314E3C00F4C1F1 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				0372DC7C29314E3C00F4C1F1 /* Presentation */,
+			);
+			path = Categories;
+			sourceTree = "<group>";
+		};
+		0372DC7C29314E3C00F4C1F1 /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				0372DC7D29314E3C00F4C1F1 /* ViewModel */,
+				0372DC7F29314E3C00F4C1F1 /* View */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		0372DC7D29314E3C00F4C1F1 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				0372DC7E29314E3C00F4C1F1 /* CategoryViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		0372DC7F29314E3C00F4C1F1 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				0372DC8029314E3C00F4C1F1 /* CategoryDetailView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		0372DC882932687C00F4C1F1 /* Tags */ = {
+			isa = PBXGroup;
+			children = (
+				0372DC892932687C00F4C1F1 /* Presentation */,
+			);
+			path = Tags;
+			sourceTree = "<group>";
+		};
+		0372DC892932687C00F4C1F1 /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				0372DC8A2932687C00F4C1F1 /* ViewModel */,
+				0372DC8C2932687C00F4C1F1 /* View */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		0372DC8A2932687C00F4C1F1 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				0372DC8B2932687C00F4C1F1 /* TagsViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		0372DC8C2932687C00F4C1F1 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				0372DC8D2932687C00F4C1F1 /* TagDetailView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -133,6 +317,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0372DC872932604700F4C1F1 /* Launch Screen.storyboard in Resources */,
 				0372DC4D2930F24500F4C1F1 /* Preview Assets.xcassets in Resources */,
 				0372DC492930F24500F4C1F1 /* Assets.xcassets in Resources */,
 			);
@@ -146,9 +331,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				0372DC452930F24400F4C1F1 /* Gastos.xcdatamodeld in Sources */,
+				0372DC8129314E3C00F4C1F1 /* CategoryViewModel.swift in Sources */,
+				0372DC852931721E00F4C1F1 /* Formatters.swift in Sources */,
+				0372DC8229314E3C00F4C1F1 /* CategoryDetailView.swift in Sources */,
+				0372DC8E2932687C00F4C1F1 /* TagsViewModel.swift in Sources */,
+				0372DC6D2931412500F4C1F1 /* ExpenseDetailView.swift in Sources */,
+				0372DC5E2930F34B00F4C1F1 /* HomeViewModel.swift in Sources */,
+				0372DC612931208C00F4C1F1 /* CancelBag.swift in Sources */,
 				0372DC402930F24400F4C1F1 /* GastosApp.swift in Sources */,
-				0372DC472930F24400F4C1F1 /* ContentView.swift in Sources */,
+				0372DC472930F24400F4C1F1 /* HomeView.swift in Sources */,
+				0372DC6F2931412F00F4C1F1 /* ExpenseDetailViewModel.swift in Sources */,
 				0372DC422930F24400F4C1F1 /* Persistence.swift in Sources */,
+				0372DC8F2932687C00F4C1F1 /* TagDetailView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,25 +463,29 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = Gastos/Gastos.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Gastos/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = Gastos/Assets.xcassets;
 				DEVELOPMENT_TEAM = K26FPJ2QVZ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Gastos/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 12.6;
@@ -307,25 +505,29 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = Gastos/Gastos.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Gastos/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = Gastos/Assets.xcassets;
 				DEVELOPMENT_TEAM = K26FPJ2QVZ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Gastos/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 12.6;
