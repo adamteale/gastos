@@ -7,6 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		030B1D2529327DDF00495F9E /* Gastos.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0372DC432930F24400F4C1F1 /* Gastos.xcdatamodeld */; };
+		030B1D2629327DDF00495F9E /* CategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0372DC7E29314E3C00F4C1F1 /* CategoryViewModel.swift */; };
+		030B1D2729327DDF00495F9E /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0372DC842931721E00F4C1F1 /* Formatters.swift */; };
+		030B1D2829327DDF00495F9E /* CategoryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0372DC8029314E3C00F4C1F1 /* CategoryDetailView.swift */; };
+		030B1D2929327DDF00495F9E /* TagsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0372DC8B2932687C00F4C1F1 /* TagsViewModel.swift */; };
+		030B1D2A29327DDF00495F9E /* ExpenseDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0372DC6C2931412500F4C1F1 /* ExpenseDetailView.swift */; };
+		030B1D2B29327DDF00495F9E /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0372DC5D2930F34B00F4C1F1 /* HomeViewModel.swift */; };
+		030B1D2C29327DDF00495F9E /* CancelBag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0372DC602931208C00F4C1F1 /* CancelBag.swift */; };
+		030B1D2D29327DDF00495F9E /* GastosApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0372DC3F2930F24400F4C1F1 /* GastosApp.swift */; };
+		030B1D2E29327DDF00495F9E /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0372DC462930F24400F4C1F1 /* HomeView.swift */; };
+		030B1D2F29327DDF00495F9E /* ExpenseDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0372DC6E2931412F00F4C1F1 /* ExpenseDetailViewModel.swift */; };
+		030B1D3029327DDF00495F9E /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0372DC412930F24400F4C1F1 /* Persistence.swift */; };
+		030B1D3129327DDF00495F9E /* TagDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0372DC8D2932687C00F4C1F1 /* TagDetailView.swift */; };
+		030B1D3529327DDF00495F9E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0372DC4C2930F24500F4C1F1 /* Preview Assets.xcassets */; };
+		030B1D3629327DDF00495F9E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0372DC482930F24500F4C1F1 /* Assets.xcassets */; };
 		0372DC402930F24400F4C1F1 /* GastosApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0372DC3F2930F24400F4C1F1 /* GastosApp.swift */; };
 		0372DC422930F24400F4C1F1 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0372DC412930F24400F4C1F1 /* Persistence.swift */; };
 		0372DC452930F24400F4C1F1 /* Gastos.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0372DC432930F24400F4C1F1 /* Gastos.xcdatamodeld */; };
@@ -26,6 +41,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		030B1D0929327D7C00495F9E /* Gastos copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Gastos copy-Info.plist"; path = "/Users/adamteale/code/Gastos/Gastos copy-Info.plist"; sourceTree = "<absolute>"; };
+		030B1D2229327DC000495F9E /* Gastos copy2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Gastos copy2-Info.plist"; path = "/Users/adamteale/code/Gastos/Gastos copy2-Info.plist"; sourceTree = "<absolute>"; };
+		030B1D3A29327DDF00495F9E /* Gastos MacOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Gastos MacOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		030B1D3B29327DDF00495F9E /* Gastos copy3-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Gastos copy3-Info.plist"; path = "/Users/adamteale/code/Gastos/Gastos copy3-Info.plist"; sourceTree = "<absolute>"; };
 		0372DC3C2930F24400F4C1F1 /* Gastos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gastos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0372DC3F2930F24400F4C1F1 /* GastosApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GastosApp.swift; sourceTree = "<group>"; };
 		0372DC412930F24400F4C1F1 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
@@ -48,6 +67,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		030B1D3229327DDF00495F9E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0372DC392930F24400F4C1F1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -63,6 +89,9 @@
 			children = (
 				0372DC3E2930F24400F4C1F1 /* Gastos */,
 				0372DC3D2930F24400F4C1F1 /* Products */,
+				030B1D0929327D7C00495F9E /* Gastos copy-Info.plist */,
+				030B1D2229327DC000495F9E /* Gastos copy2-Info.plist */,
+				030B1D3B29327DDF00495F9E /* Gastos copy3-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -70,6 +99,7 @@
 			isa = PBXGroup;
 			children = (
 				0372DC3C2930F24400F4C1F1 /* Gastos.app */,
+				030B1D3A29327DDF00495F9E /* Gastos MacOS.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -262,6 +292,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		030B1D2329327DDF00495F9E /* Gastos MacOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 030B1D3729327DDF00495F9E /* Build configuration list for PBXNativeTarget "Gastos MacOS" */;
+			buildPhases = (
+				030B1D2429327DDF00495F9E /* Sources */,
+				030B1D3229327DDF00495F9E /* Frameworks */,
+				030B1D3329327DDF00495F9E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Gastos MacOS";
+			productName = Gastos;
+			productReference = 030B1D3A29327DDF00495F9E /* Gastos MacOS.app */;
+			productType = "com.apple.product-type.application";
+		};
 		0372DC3B2930F24400F4C1F1 /* Gastos */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0372DC502930F24500F4C1F1 /* Build configuration list for PBXNativeTarget "Gastos" */;
@@ -308,11 +355,21 @@
 			projectRoot = "";
 			targets = (
 				0372DC3B2930F24400F4C1F1 /* Gastos */,
+				030B1D2329327DDF00495F9E /* Gastos MacOS */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		030B1D3329327DDF00495F9E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				030B1D3529327DDF00495F9E /* Preview Assets.xcassets in Resources */,
+				030B1D3629327DDF00495F9E /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0372DC3A2930F24400F4C1F1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -326,6 +383,26 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		030B1D2429327DDF00495F9E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				030B1D2529327DDF00495F9E /* Gastos.xcdatamodeld in Sources */,
+				030B1D2629327DDF00495F9E /* CategoryViewModel.swift in Sources */,
+				030B1D2729327DDF00495F9E /* Formatters.swift in Sources */,
+				030B1D2829327DDF00495F9E /* CategoryDetailView.swift in Sources */,
+				030B1D2929327DDF00495F9E /* TagsViewModel.swift in Sources */,
+				030B1D2A29327DDF00495F9E /* ExpenseDetailView.swift in Sources */,
+				030B1D2B29327DDF00495F9E /* HomeViewModel.swift in Sources */,
+				030B1D2C29327DDF00495F9E /* CancelBag.swift in Sources */,
+				030B1D2D29327DDF00495F9E /* GastosApp.swift in Sources */,
+				030B1D2E29327DDF00495F9E /* HomeView.swift in Sources */,
+				030B1D2F29327DDF00495F9E /* ExpenseDetailViewModel.swift in Sources */,
+				030B1D3029327DDF00495F9E /* Persistence.swift in Sources */,
+				030B1D3129327DDF00495F9E /* TagDetailView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0372DC382930F24400F4C1F1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -349,6 +426,96 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		030B1D3829327DDF00495F9E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_ENTITLEMENTS = Gastos/Gastos.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = Gastos/Assets.xcassets;
+				DEVELOPMENT_TEAM = K26FPJ2QVZ;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Gastos copy3-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = Gastos;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "";
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.adamteale.Gastos;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		030B1D3929327DDF00495F9E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_ENTITLEMENTS = Gastos/Gastos.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = Gastos/Assets.xcassets;
+				DEVELOPMENT_TEAM = K26FPJ2QVZ;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Gastos copy3-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = Gastos;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "";
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.adamteale.Gastos;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		0372DC4E2930F24500F4C1F1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -473,6 +640,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Gastos/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Gastos;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
@@ -493,7 +661,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.adamteale.Gastos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -515,6 +685,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Gastos/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Gastos;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
@@ -535,7 +706,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.adamteale.Gastos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -545,6 +718,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		030B1D3729327DDF00495F9E /* Build configuration list for PBXNativeTarget "Gastos MacOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				030B1D3829327DDF00495F9E /* Debug */,
+				030B1D3929327DDF00495F9E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		0372DC372930F24400F4C1F1 /* Build configuration list for PBXProject "Gastos" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

@@ -70,9 +70,7 @@ final class ExpenseDetailViewModel: ObservableObject {
     }
 
     func onSave(onSuccess: () -> Void ) {
-        var shouldSave = true
         if expense == nil {
-            shouldSave = true
             expense = Expense(context: managedObjectContext)
         }
         expense?.title = title
@@ -82,9 +80,7 @@ final class ExpenseDetailViewModel: ObservableObject {
         expense?.date = date
         do {
             try managedObjectContext.save()
-            if shouldSave {
-                onSuccess()
-            }
+            onSuccess()
         } catch {
             // Replace this implementation with code to handle the error appropriately.
             // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.

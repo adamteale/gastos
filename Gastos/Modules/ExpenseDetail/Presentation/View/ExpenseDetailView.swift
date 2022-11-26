@@ -24,15 +24,19 @@ struct ExpenseDetailView: View {
         self.viewModel = viewModel
         self._isPresented = isPresented // "_" how dumb!
         selectedCategory = 0
-        titleIsFocused = false
     }
 
     var body: some View {
+        ScrollView {
             VStack (spacing: 16) {
                 HStack {
                     Button(action: {
-                        viewModel.onSave {
+                        if viewModel.expense == nil {
                             isPresented = false
+                        } else {
+                            viewModel.onSave {
+                                isPresented = false
+                            }
                         }
                     }) {
                         Label("", systemImage: "arrow.backward")
@@ -41,23 +45,25 @@ struct ExpenseDetailView: View {
                     Spacer()
                         .frame(maxWidth:.infinity)
                 }
-
-                TextField("Title", text: $viewModel.title)
+                
+                TextField("Title", text: $viewModel.title, axis: .vertical)
                     .multilineTextAlignment(.center)
                     .font(.system(size: 40))
 #if os(iOS)
                     .fontWeight(.semibold)
 #endif
-                    .padding(EdgeInsets(top: 8, leading: 0, bottom: 0, trailing: 0))
+                    .padding()
                     .focused($titleIsFocused)
                     .onSubmit {
                         titleIsFocused = false
+                        amountIsFocused = true
                     }
+
 
                 TextField(
                     "",
                     value: $viewModel.amount,
-                    formatter: Formatters.currencyFormatter
+                    format: .currency(code: "CLP")
                 )
                 .multilineTextAlignment(.center)
 #if os(iOS)
@@ -71,12 +77,11 @@ struct ExpenseDetailView: View {
                 }
 
                 DatePicker(
-                    "Fecha",
+                    "fecha",
                     selection: $viewModel.date,
                     displayedComponents: [.date]
                 )
                 .labelsHidden()
-
 
                 HStack {
                     Button(action: {
@@ -85,10 +90,11 @@ struct ExpenseDetailView: View {
                         Image(systemName: "plus.circle")
                             .font(.system(size: 30.0, weight: .semibold))
                     }
-
+                    
                     Picker(selection: $selectedCategory, label: Text("Category")) {
                         ForEach(0..<viewModel.categories.count, id: \.self) { index in
                             Text(viewModel.categories[index].name ?? "-")
+                                .minimumScaleFactor(0.2)
                                 .font(.system(size: 30))
                                 .fontWeight(.semibold)
                                 .tag(index)
@@ -100,7 +106,7 @@ struct ExpenseDetailView: View {
                     .pickerStyle(WheelPickerStyle())
 #endif
                 }
-
+                
                 HStack {
                     Button(action: {
                         viewModel.onAddTag()
@@ -108,7 +114,7 @@ struct ExpenseDetailView: View {
                         Image(systemName: "plus.circle")
                             .font(.system(size: 30.0, weight: .semibold))
                     }
-
+                    
                     LazyVGrid (columns: [GridItem(.adaptive(minimum: 200))], spacing: 16) {
                         ForEach(Array(viewModel.availableTags)) { tag in
                             Button {
@@ -132,50 +138,53 @@ struct ExpenseDetailView: View {
                                     }
                                     .cornerRadius(4)
                             }
-
+                            
                         }
                     }
-
+                    
                     Spacer()
 #if os(iOS)
-                    .pickerStyle(WheelPickerStyle())
+                        .pickerStyle(WheelPickerStyle())
 #endif
                 }
                 .frame(maxWidth: .infinity)
-
+                
                 Spacer()
 
-//                if viewModel.expense != nil {
-                    // Hide save button when showing an existing Expense as it will "auto save" in the viewmodel
-                    Button(action: {
-                        viewModel.onSave {
-                            isPresented = false
-                        }
-                    }) {
-                        Text("Save")
-                            .font(.system(size: 30))
-                            .bold()
+                Button(action: {
+                    viewModel.onSave {
+                        isPresented = false
                     }
-                    .frame(maxWidth: .infinity)
-                    .padding(8)
-                    .foregroundColor(
-                        Color.white
-                    )
-                    .background {
-                        Color.blue.opacity(0.3)
-                    }
-                    .cornerRadius(8)
-//                }
-            }
+                }) {
+                    Text("Save")
+                        .font(.system(size: 30))
+                        .bold()
+                }
+                .frame(maxWidth: .infinity)
+                .padding(8)
+                .foregroundColor(
+                    Color.white
+                )
+                .background {
+                    Color.blue.opacity(0.3)
+                }
+                .cornerRadius(8)
 
+            }
+        }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .padding()
+        .onTapGesture(perform: {
+            titleIsFocused = false
+            amountIsFocused = false
+        })
         .onAppear{
             viewModel.categories.enumerated().forEach { (index, c) in
                 if c == viewModel.category {
                     selectedCategory = index
                 }
             }
+            titleIsFocused = viewModel.expense == nil
         }
         .sheet(isPresented: $viewModel.isPresentingCategory) {
             CategoryDetailView(

@@ -31,7 +31,7 @@ struct HomeView: View {
 
                 List {
                     ForEach(
-                        Array(viewModel.expensesSections).reversed(), id: \.key
+                        Array(viewModel.expensesSections).sorted(by: { $0.key > $1.key }), id: \.key
                     ) { key, value in
                         ExpensesSection(
                             title: key,
@@ -40,7 +40,9 @@ struct HomeView: View {
                                 viewModel.onEditItem(objectID: value[index].objectID)
                             },
                             deleteItems: { indexSet in
-                                viewModel.deleteItems(offsets: indexSet)
+                                if let first = indexSet.first {
+                                    viewModel.deleteItems(objectID: value[first].objectID)
+                                }
                             }
                         )
                     }

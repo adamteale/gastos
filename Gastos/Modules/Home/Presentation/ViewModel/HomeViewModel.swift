@@ -55,7 +55,7 @@ final class HomeViewModel: ObservableObject {
     func onRefresh() {
         do {
             expensesRaw = try managedObjectContext.fetch(expensesFetchRequest).sorted(by: { lhs, rhs in
-                lhs.date ?? Date() > rhs.date ?? Date()
+                lhs.date ?? Date() < rhs.date ?? Date()
             })
 
             categories = try managedObjectContext.fetch(categoriesFetchRequest)
@@ -91,16 +91,17 @@ final class HomeViewModel: ObservableObject {
         isPresentingExpense = true
     }
 
-    func deleteItems(offsets: IndexSet) {
-//        offsets.map { expenses[$0] }.forEach(managedObjectContext.delete)
-//        do {
-//            try managedObjectContext.save()
-//        } catch {
-//            // Replace this implementation with code to handle the error appropriately.
-//            // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-//            let nsError = error as NSError
-//            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-//        }
+    func deleteItems(objectID: NSManagedObjectID) {
+        guard let expense_to_delete = expensesRaw.first(where: {$0.objectID == objectID}) else { return }
+        [expense_to_delete].forEach(managedObjectContext.delete)
+        do {
+            try managedObjectContext.save()
+        } catch {
+            // Replace this implementation with code to handle the error appropriately.
+            // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+            let nsError = error as NSError
+            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+        }
     }
 
     func onUpdate(searchTerm: String) {
