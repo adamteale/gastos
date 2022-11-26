@@ -132,7 +132,7 @@ struct ExpensesSection: View {
                         Text("$\(String(format: "%.2f", expense.amount))")
                             .font(.system(size: 18))
                             .fontWeight(.semibold)
-                        Text(expense.date!, formatter: itemFormatter)
+                        Text(expense.date ?? Date(), formatter: itemFormatter)
 
                         TagsComponent(tags: Array(expense.tags as? Set<Tag> ?? Set<Tag>()))
                     }
