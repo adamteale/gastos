@@ -106,7 +106,7 @@ final class HomeViewModel: ObservableObject {
     func onUpdate(searchTerm: String) {
         self.searchTerm = searchTerm
         expensesSections = expensesRaw.reduce(into: [String: [Expense]](), { partialResult, expense in
-            if let date = Formatters.onlyDate.string(for: expense.date) {
+            if let date = Formatters.onlyDate.string(for: expense.date ?? Date()) {
                 if partialResult[date] == nil {
                     partialResult[date] = []
                 }
