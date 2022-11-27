@@ -16,17 +16,22 @@ final class HomeViewModel: ObservableObject {
     @Published var activeExpense: Expense?
     @Published var activeCategory: Category?
     @Published var activeTag: Tag?
+    @Published var activeAccount: Account?
 
     @Published var isPresentingExpense = false
     @Published var isPresentingCategory = false
     @Published var isPresentingTag = false
+    @Published var isPresentingAccount = false
 
     @Published var searchTerm: String = ""
+
+    @Published var totalAmount: Double = 0.0
 
     private var expensesRaw = [Expense]()
 
     private(set) var categories = [Category]()
     private(set) var availableTags = [Tag]()
+    private(set) var accounts = [Account]()
 
     private(set) var managedObjectContext: NSManagedObjectContext
     private let expensesFetchRequest: NSFetchRequest<Expense> = NSFetchRequest(
@@ -37,6 +42,9 @@ final class HomeViewModel: ObservableObject {
     )
     private let tagsFetchRequest: NSFetchRequest<Tag> = NSFetchRequest(
         entityName: String(describing: Tag.self)
+    )
+    private let accountsFetchRequest: NSFetchRequest<Account> = NSFetchRequest(
+        entityName: String(describing: Account.self)
     )
 
     private let cancelBag = CancelBag()
@@ -60,6 +68,7 @@ final class HomeViewModel: ObservableObject {
 
             categories = try managedObjectContext.fetch(categoriesFetchRequest)
             availableTags = try managedObjectContext.fetch(tagsFetchRequest)
+            accounts = try managedObjectContext.fetch(accountsFetchRequest)
             onUpdate(searchTerm: "")
         } catch {
             print("error:", error)
@@ -79,6 +88,11 @@ final class HomeViewModel: ObservableObject {
     func onAddTag() {
         activeTag = nil
         isPresentingTag = true
+    }
+
+    func onAddAccount() {
+        activeAccount = nil
+        isPresentingAccount = true
     }
 
     func onEditItem(objectID: NSManagedObjectID) {
@@ -106,21 +120,26 @@ final class HomeViewModel: ObservableObject {
 
     func onUpdate(searchTerm: String) {
         self.searchTerm = searchTerm
-        expensesSections = expensesRaw.reduce(into: [String: [Expense]](), { partialResult, expense in
+
+        let k = expensesRaw.reduce(into: ([String: [Expense]](), 0.0), { partialResult, expense in
             if let date = Formatters.onlyDate.string(for: expense.date ?? Date()) {
-                if partialResult[date] == nil {
-                    partialResult[date] = []
+                if partialResult.0[date] == nil {
+                    partialResult.0[date] = []
                 }
 
                 if searchTerm.isEmpty {
-                    partialResult[date]?.append(expense)
+                    partialResult.0[date]?.append(expense)
+                    partialResult.1 += expense.amount
                 } else if (expense.title ?? "" ).contains(searchTerm){
-                    partialResult[date]?.append(expense)
+                    partialResult.0[date]?.append(expense)
+                    partialResult.1 += expense.amount
                 }
             }
 
         })
 
+        expensesSections = k.0
+        totalAmount = k.1
     }
 
     func onClearSearchTerm() {

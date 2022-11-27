@@ -10,24 +10,38 @@ import SwiftUI
 struct HomeView: View {
 
     @ObservedObject var viewModel: HomeViewModel
+    @State var searchOn: Bool = false
+    @FocusState private var searchIsFocused: Bool
 
     var body: some View {
         NavigationView {
             VStack {
-                HStack {
-                    TextField(
-                        "Search", text: $viewModel.searchTerm
-                    ).onChange(of: viewModel.searchTerm) { newValue in
-                        viewModel.onUpdate(searchTerm: newValue)
-                    }
-                    if !viewModel.searchTerm.isEmpty {
-                        Button(action: viewModel.onClearSearchTerm) {
-                            Label("", systemImage: "xmark.circle")
-                                .font(.system(size: 20))
+
+                if searchOn {
+                    HStack {
+                        TextField(
+                            "Search", text: $viewModel.searchTerm
+                        )
+                        .focused($searchIsFocused)
+                        .onChange(of: viewModel.searchTerm) { newValue in
+                            viewModel.onUpdate(searchTerm: newValue)
                         }
+                        if !viewModel.searchTerm.isEmpty {
+                            Button(action: viewModel.onClearSearchTerm) {
+                                Label("", systemImage: "xmark.circle")
+                                    .font(.system(size: 20))
+                            }
+                        }
+                        Spacer()
                     }
+                    .padding()
                 }
-                .padding()
+
+                Text(Formatters.currencyFormatter.string(for: viewModel.totalAmount) ?? "")
+                    .font(.system(size: 40))
+                    .fontWeight(.black)
+                    .padding(4)
+                VStack {
 
                 List {
                     ForEach(
@@ -47,12 +61,24 @@ struct HomeView: View {
                         )
                     }
                 }
+                    Button(action: viewModel.onAddExpense) {
+                        Label("", systemImage: "plus")
+                            .font(.system(size: 50))
+                            .fontWeight(.black)
+                    }
+
+                }
                 .toolbar {
 #if os(iOS)
                     ToolbarItem(placement: .navigationBarLeading) {
                         EditButton()
                     }
 #endif
+                    ToolbarItem {
+                        Button(action: viewModel.onAddAccount) {
+                            Label("Add Account", systemImage: "creditcard")
+                        }
+                    }
                     ToolbarItem {
                         Button(action: viewModel.onAddTag) {
                             Label("Add Tag", systemImage: "tag")
@@ -64,8 +90,8 @@ struct HomeView: View {
                         }
                     }
                     ToolbarItem {
-                        Button(action: viewModel.onAddExpense) {
-                            Label("Add Expense", systemImage: "plus")
+                        Button(action: toggleSearch) {
+                            Label("Search", systemImage: "magnifyingglass")
                         }
                     }
                 }
@@ -79,6 +105,7 @@ struct HomeView: View {
                     expense: viewModel.activeExpense,
                     categories: viewModel.categories,
                     availableTags: viewModel.availableTags,
+                    availableAccounts: viewModel.accounts,
                     managedObjectContext: viewModel.managedObjectContext
                 ),
                 isPresented: $viewModel.isPresentingExpense
@@ -104,8 +131,23 @@ struct HomeView: View {
                 isPresented: $viewModel.isPresentingTag
             )
         }
+        .sheet(isPresented: $viewModel.isPresentingAccount) {
+            AccountDetailView(
+                viewModel: AccountDetailViewModel(
+                    account: viewModel.activeAccount,
+                    accounts: viewModel.accounts,
+                    managedObjectContext: viewModel.managedObjectContext
+                ),
+                isPresented: $viewModel.isPresentingAccount
+            )
+        }
     }
 
+    private func toggleSearch() {
+        searchOn.toggle()
+        viewModel.onUpdate(searchTerm: "")
+        searchIsFocused = true
+    }
 }
 
 struct ExpensesSection: View {
@@ -124,19 +166,23 @@ struct ExpensesSection: View {
                 Button {
                     onEditItem(index)
                 } label: {
-                    VStack(alignment: .leading) {
+                    VStack(alignment: .leading, spacing: 0) {
                         Text(expense.title ?? "")
                             .font(.system(size: 24))
                             .fontWeight(.semibold)
                         Text(expense.category?.name ?? "")
-                            .font(.system(size: 12))
+                            .font(.system(size: 20))
                             .fontWeight(.medium)
                         Text("$\(String(format: "%.2f", expense.amount))")
                             .font(.system(size: 18))
                             .fontWeight(.semibold)
-                        Text(expense.date ?? Date(), formatter: itemFormatter)
+                        if let date = Formatters.onlyDate.string(for: expense.date ?? Date()) {
+                            Text(date)
+                        }
 
-                        TagsComponent(tags: Array(expense.tags as? Set<Tag> ?? Set<Tag>()))
+                        if expense.tags?.count ?? 0 > 0 {
+                            TagsComponent(tags: Array(expense.tags as? Set<Tag> ?? Set<Tag>()))
+                        }
                     }
                 }
             }

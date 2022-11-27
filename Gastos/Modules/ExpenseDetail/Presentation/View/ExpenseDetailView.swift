@@ -13,6 +13,7 @@ struct ExpenseDetailView: View {
     @ObservedObject private var viewModel: ExpenseDetailViewModel
     @Binding var isPresented: Bool
     @State private var selectedCategory: Int
+    @State private var selectedAccount: Int
 
     @FocusState private var titleIsFocused: Bool
     @FocusState private var amountIsFocused: Bool
@@ -24,46 +25,51 @@ struct ExpenseDetailView: View {
         self.viewModel = viewModel
         self._isPresented = isPresented // "_" how dumb!
         selectedCategory = 0
+        selectedAccount = 0
     }
 
     var body: some View {
+        HStack {
+            Button(action: {
+                if viewModel.expense == nil {
+                    isPresented = false
+                } else {
+                    viewModel.onSave {
+                        isPresented = false
+                    }
+                }
+            }) {
+                Label("", systemImage: "arrow.backward")
+                    .font(.system(size: 20))
+            }
+            Spacer()
+                .frame(maxWidth:.infinity)
+        }
+        .padding()
+
         ScrollView {
             VStack (spacing: 16) {
-                HStack {
-                    Button(action: {
-                        if viewModel.expense == nil {
-                            isPresented = false
-                        } else {
-                            viewModel.onSave {
-                                isPresented = false
-                            }
-                        }
-                    }) {
-                        Label("", systemImage: "arrow.backward")
-                            .font(.system(size: 20))
-                    }
-                    Spacer()
-                        .frame(maxWidth:.infinity)
-                }
-                
-                TextField("Title", text: $viewModel.title, axis: .vertical)
-                    .multilineTextAlignment(.center)
-                    .font(.system(size: 40))
+                TextField(
+                    "Title",
+                    text: $viewModel.title,
+                    axis: .vertical
+                )
+                .multilineTextAlignment(.center)
+                .font(.system(size: 40))
 #if os(iOS)
-                    .fontWeight(.semibold)
+                .fontWeight(.semibold)
 #endif
-                    .padding()
-                    .focused($titleIsFocused)
-                    .onSubmit {
-                        titleIsFocused = false
-                        amountIsFocused = true
-                    }
-
+                .padding()
+                .focused($titleIsFocused)
+                .onSubmit {
+                    titleIsFocused = false
+                    amountIsFocused = true
+                }
 
                 TextField(
                     "",
                     value: $viewModel.amount,
-                    format: .currency(code: "CLP")
+                    formatter: Formatters.currencyFormatter
                 )
                 .multilineTextAlignment(.center)
 #if os(iOS)
@@ -83,6 +89,23 @@ struct ExpenseDetailView: View {
                 )
                 .labelsHidden()
 
+                Picker(selection: $selectedAccount, label: Text("Account")) {
+                    ForEach(0..<viewModel.accounts.count, id: \.self) { index in
+                        Text(viewModel.accounts[index].name ?? "-")
+                            .minimumScaleFactor(0.2)
+                            .font(.system(size: 30))
+                            .fontWeight(.semibold)
+                            .tag(index)
+                    }
+                }
+                .frame(height: 140)
+                .onChange(of: selectedAccount) { index in
+                    viewModel.onUpdateAccount(atIndex: index)
+                }
+#if os(iOS)
+                .pickerStyle(WheelPickerStyle())
+#endif
+
                 HStack {
                     Button(action: {
                         viewModel.onAddCategory()
@@ -90,7 +113,6 @@ struct ExpenseDetailView: View {
                         Image(systemName: "plus.circle")
                             .font(.system(size: 30.0, weight: .semibold))
                     }
-                    
                     Picker(selection: $selectedCategory, label: Text("Category")) {
                         ForEach(0..<viewModel.categories.count, id: \.self) { index in
                             Text(viewModel.categories[index].name ?? "-")
@@ -99,23 +121,26 @@ struct ExpenseDetailView: View {
                                 .fontWeight(.semibold)
                                 .tag(index)
                         }
-                    }.onChange(of: selectedCategory) { index in
+                    }
+                    .frame(height: 140)
+                    .onChange(of: selectedCategory) { index in
                         viewModel.onUpdateCategory(atIndex: index)
                     }
 #if os(iOS)
                     .pickerStyle(WheelPickerStyle())
 #endif
                 }
-                
-                HStack {
+
+                HStack{
+
                     Button(action: {
                         viewModel.onAddTag()
                     }) {
                         Image(systemName: "plus.circle")
                             .font(.system(size: 30.0, weight: .semibold))
                     }
-                    
-                    LazyVGrid (columns: [GridItem(.adaptive(minimum: 200))], spacing: 16) {
+
+                    LazyHGrid (rows: [GridItem(.adaptive(minimum: 200))], spacing: 8) {
                         ForEach(Array(viewModel.availableTags)) { tag in
                             Button {
                                 viewModel.onUpdate(tag: tag)
@@ -138,18 +163,12 @@ struct ExpenseDetailView: View {
                                     }
                                     .cornerRadius(4)
                             }
-                            
+
                         }
                     }
-                    
-                    Spacer()
-#if os(iOS)
-                        .pickerStyle(WheelPickerStyle())
-#endif
+                    .frame(maxWidth: .infinity)
+
                 }
-                .frame(maxWidth: .infinity)
-                
-                Spacer()
 
                 Button(action: {
                     viewModel.onSave {

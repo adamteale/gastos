@@ -14,12 +14,13 @@ final class ExpenseDetailViewModel: ObservableObject {
     @Published var amount: Double
     @Published var title: String
     @Published var category: Category?
+    @Published var account: Account?
     @Published var date: Date
     @Published var tags: Set<Tag>
 
     @Published var categories: [Category]
     @Published var availableTags: [Tag]
-
+    @Published var accounts: [Account]
     @Published var activeCategory: Category?
     @Published var isPresentingCategory = false
     @Published var activeTag: Tag?
@@ -35,11 +36,13 @@ final class ExpenseDetailViewModel: ObservableObject {
         expense: Expense?,
         categories: [Category],
         availableTags: [Tag],
+        availableAccounts: [Account],
         managedObjectContext: NSManagedObjectContext
     ) {
         self.expense = expense
         self.categories = categories
         self.availableTags = availableTags
+        self.accounts = availableAccounts
         self.managedObjectContext = managedObjectContext
 
         amount = expense?.amount ?? 0
@@ -47,14 +50,6 @@ final class ExpenseDetailViewModel: ObservableObject {
         date = expense?.date ?? Date()
         category = expense?.category
         tags = expense?.tags as? Set ?? Set<Tag>()
-    }
-
-    func onUpdate(title: String) {
-        self.title = title
-    }
-
-    func onUpdate(amount: Double) {
-        self.amount = amount
     }
 
     func onUpdate(tag: Tag) {
@@ -69,6 +64,11 @@ final class ExpenseDetailViewModel: ObservableObject {
         self.category = categories[index]
     }
 
+    func onUpdateAccount(atIndex index: Int) {
+        self.account = accounts[index]
+    }
+
+
     func onSave(onSuccess: () -> Void ) {
         if expense == nil {
             expense = Expense(context: managedObjectContext)
@@ -78,6 +78,8 @@ final class ExpenseDetailViewModel: ObservableObject {
         expense?.category = category ?? categories.first
         expense?.tags = NSSet(set: tags)
         expense?.date = date
+        expense?.account = account
+
         do {
             try managedObjectContext.save()
             onSuccess()

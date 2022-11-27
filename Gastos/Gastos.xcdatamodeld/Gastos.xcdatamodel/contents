@@ -1,30 +1,36 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21512" systemVersion="21G217" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+    <entity name="Account" representedClassName="Account" syncable="YES" codeGenerationType="class">
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="expenses" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Expense" inverseName="account" inverseEntity="Expense"/>
+    </entity>
     <entity name="Category" representedClassName="Category" syncable="YES" codeGenerationType="class">
         <attribute name="name" optional="YES" attributeType="String"/>
-        <relationship name="expenses" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Expense" inverseName="category" inverseEntity="Expense"/>
+        <relationship name="expenses" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Expense" inverseName="category" inverseEntity="Expense"/>
     </entity>
     <entity name="Currency" representedClassName="Currency" syncable="YES" codeGenerationType="class">
         <attribute name="name" optional="YES" attributeType="String"/>
-        <relationship name="expenses" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Expense" inverseName="currency" inverseEntity="Expense"/>
+        <relationship name="expenses" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Expense" inverseName="currency" inverseEntity="Expense"/>
     </entity>
     <entity name="Expense" representedClassName="Expense" syncable="YES" codeGenerationType="class">
         <attribute name="amount" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="title" optional="YES" attributeType="String"/>
+        <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="expenses" inverseEntity="Account"/>
         <relationship name="category" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Category" inverseName="expenses" inverseEntity="Category"/>
         <relationship name="currency" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Currency" inverseName="expenses" inverseEntity="Currency"/>
         <relationship name="tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Tag" inverseName="expenses" inverseEntity="Tag"/>
     </entity>
     <entity name="Tag" representedClassName="Tag" syncable="YES" codeGenerationType="class">
         <attribute name="name" optional="YES" attributeType="String"/>
-        <relationship name="expenses" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Expense" inverseName="tags" inverseEntity="Expense"/>
+        <relationship name="expenses" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Expense" inverseName="tags" inverseEntity="Expense"/>
     </entity>
     <configuration name="Cloud" usedWithCloudKit="YES">
         <memberEntity name="Category"/>
         <memberEntity name="Currency"/>
         <memberEntity name="Expense"/>
         <memberEntity name="Tag"/>
+        <memberEntity name="Account"/>
     </configuration>
 </model>

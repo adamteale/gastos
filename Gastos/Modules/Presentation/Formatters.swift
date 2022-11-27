@@ -12,7 +12,8 @@ struct Formatters {
     static let currencyFormatter: Formatter = {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .currency
-        numberFormatter.maximumFractionDigits = 2
+        numberFormatter.locale = Locale(identifier: "es_CL")
+        numberFormatter.maximumFractionDigits = 0
         return numberFormatter
     }()
 
