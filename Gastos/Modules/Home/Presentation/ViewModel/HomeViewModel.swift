@@ -18,6 +18,8 @@ final class HomeViewModel: ObservableObject {
     @Published var activeTag: Tag?
     @Published var activeAccount: Account?
 
+    @Published var selectedDate: Date = Date()
+
     @Published var isPresentingExpense = false
     @Published var isPresentingCategory = false
     @Published var isPresentingTag = false
@@ -27,13 +29,16 @@ final class HomeViewModel: ObservableObject {
 
     @Published var totalAmount: Double = 0.0
 
-    private var expensesRaw = [Expense]()
+    let months: [String] = Calendar.current.shortMonthSymbols
 
+    private let calendar = Calendar.current
+    private var expensesRaw = [Expense]()
     private(set) var categories = [Category]()
     private(set) var availableTags = [Tag]()
     private(set) var accounts = [Account]()
-
     private(set) var managedObjectContext: NSManagedObjectContext
+    private let cancelBag = CancelBag()
+
     private let expensesFetchRequest: NSFetchRequest<Expense> = NSFetchRequest(
         entityName: String(describing: Expense.self)
     )
@@ -47,7 +52,6 @@ final class HomeViewModel: ObservableObject {
         entityName: String(describing: Account.self)
     )
 
-    private let cancelBag = CancelBag()
     
     init(managedObjectContext: NSManagedObjectContext) {
         self.managedObjectContext = managedObjectContext
@@ -121,7 +125,10 @@ final class HomeViewModel: ObservableObject {
     func onUpdate(searchTerm: String) {
         self.searchTerm = searchTerm
 
-        let k = expensesRaw.reduce(into: ([String: [Expense]](), 0.0), { partialResult, expense in
+        let k = expensesRaw.filter { expense in
+            calendar.isDate(expense.date ?? Date(), equalTo: selectedDate, toGranularity: .month)
+        }.reduce(into: ([String: [Expense]](), 0.0), { partialResult, expense in
+
             if let date = Formatters.onlyDate.string(for: expense.date ?? Date()) {
                 if partialResult.0[date] == nil {
                     partialResult.0[date] = []
@@ -145,4 +152,12 @@ final class HomeViewModel: ObservableObject {
     func onClearSearchTerm() {
         searchTerm = ""
     }
+
+    func onChangeCurrentDate(date: Date) {
+        var dateComponents = calendar.dateComponents([.month, .day, .year], from: date)
+        dateComponents.day = 1
+        selectedDate = calendar.date(from: dateComponents) ?? Date()
+        onUpdate(searchTerm: searchTerm)
+    }
+
 }

@@ -24,4 +24,16 @@ struct Formatters {
         formatter.timeZone = TimeZone.current
         return formatter
     }()
+
+    static let onlyMonth: Formatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "LLL"
+        return formatter
+    }()
+
+    static let onlyYear: Formatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy"
+        return formatter
+    }()
 }

@@ -49,6 +49,7 @@ final class ExpenseDetailViewModel: ObservableObject {
         title = expense?.title ?? ""
         date = expense?.date ?? Date()
         category = expense?.category
+        account = expense?.account
         tags = expense?.tags as? Set ?? Set<Tag>()
     }
 

@@ -37,36 +37,56 @@ struct HomeView: View {
                     .padding()
                 }
 
+                MonthPickerComponent(
+                    viewModel: MonthPickerComponentViewModel(
+                        selectedDate: viewModel.selectedDate,
+                        onChangeCurrentDate: viewModel.onChangeCurrentDate
+                    )
+                )
+
                 Text(Formatters.currencyFormatter.string(for: viewModel.totalAmount) ?? "")
                     .font(.system(size: 40))
                     .fontWeight(.black)
                     .padding(4)
-                VStack {
 
-                List {
-                    ForEach(
-                        Array(viewModel.expensesSections).sorted(by: { $0.key > $1.key }), id: \.key
-                    ) { key, value in
-                        ExpensesSection(
-                            title: key,
-                            expenses: value,
-                            onEditItem: { index in
-                                viewModel.onEditItem(objectID: value[index].objectID)
-                            },
-                            deleteItems: { indexSet in
-                                if let first = indexSet.first {
-                                    viewModel.deleteItems(objectID: value[first].objectID)
+                ZStack(alignment: .bottom) {
+                    List {
+                        ForEach(
+                            Array(viewModel.expensesSections).sorted(by: { $0.key > $1.key }), id: \.key
+                        ) { key, value in
+                            ExpensesSection(
+                                title: key,
+                                expenses: value,
+                                onEditItem: { index in
+                                    viewModel.onEditItem(objectID: value[index].objectID)
+                                },
+                                deleteItems: { indexSet in
+                                    if let first = indexSet.first {
+                                        viewModel.deleteItems(objectID: value[first].objectID)
+                                    }
                                 }
+                            )
+                        }
+                    }
+                    HStack {
+                        Spacer()
+                        Button(action: viewModel.onAddExpense) {
+                            Group {
+                                Image(systemName: "plus")
+                                    .resizable()
+                                    .frame(width: 50, height: 50)
+                                    .tint(Color.white)
                             }
-                        )
-                    }
-                }
-                    Button(action: viewModel.onAddExpense) {
-                        Label("", systemImage: "plus")
-                            .font(.system(size: 50))
-                            .fontWeight(.black)
-                    }
+                                .frame(width: 50, height: 50)
+                                .padding()
+                                .background {
+                                    Color.blue
+                                }
+                                .cornerRadius(41)
 
+                        }
+                    }
+                    .padding()
                 }
                 .toolbar {
 #if os(iOS)
@@ -166,20 +186,24 @@ struct ExpensesSection: View {
                 Button {
                     onEditItem(index)
                 } label: {
-                    VStack(alignment: .leading, spacing: 0) {
+                    VStack(alignment: .leading, spacing: 2) {
                         Text(expense.title ?? "")
                             .font(.system(size: 24))
-                            .fontWeight(.semibold)
+                            .fontWeight(.heavy)
+                        Text(Formatters.currencyFormatter.string(for: expense.amount) ?? "")
+                            .font(.system(size: 24))
+                            .fontWeight(.black)
                         Text(expense.category?.name ?? "")
                             .font(.system(size: 20))
                             .fontWeight(.medium)
-                        Text("$\(String(format: "%.2f", expense.amount))")
-                            .font(.system(size: 18))
-                            .fontWeight(.semibold)
-                        if let date = Formatters.onlyDate.string(for: expense.date ?? Date()) {
-                            Text(date)
-                        }
-
+                        Text(expense.account?.name ?? "")
+                            .font(.system(size: 14))
+                            .fontWeight(.medium)
+                            .padding(4)
+                            .background {
+                                Color.blue.opacity(0.3)
+                            }
+                            .cornerRadius(4)
                         if expense.tags?.count ?? 0 > 0 {
                             TagsComponent(tags: Array(expense.tags as? Set<Tag> ?? Set<Tag>()))
                         }
@@ -187,6 +211,131 @@ struct ExpensesSection: View {
                 }
             }
             .onDelete(perform: deleteItems)
+        }
+    }
+
+}
+
+
+final class MonthPickerComponentViewModel: ObservableObject {
+
+    private let onChangeCurrentDate: (Date) -> Void
+    let formatter = DateFormatter()
+
+    private(set) var selectedDate: Date
+
+    init(
+        selectedDate: Date,
+        onChangeCurrentDate: @escaping (Date) -> Void
+    ) {
+        self.onChangeCurrentDate = onChangeCurrentDate
+        self.selectedDate = selectedDate
+    }
+
+
+    func onMonthSelected(month: String) {
+        if let index = formatter.shortMonthSymbols.firstIndex(where: {$0 == month}) {
+            var dateComponents = Calendar.current.dateComponents([.month, .day, .year], from: selectedDate)
+            dateComponents.month = index + 1
+            if let newdate = Calendar.current.date(from: dateComponents) {
+                onChangeCurrentDate(newdate)
+            }
+        }
+    }
+
+    func nextYear() {
+        var dateComponents = Calendar.current.dateComponents([.month, .day, .year], from: selectedDate)
+        dateComponents.year = (dateComponents.year ?? 0) + 1
+        if let newdate = Calendar.current.date(from: dateComponents) {
+            onChangeCurrentDate(newdate)
+        }
+    }
+
+    func previousYear() {
+        var dateComponents = Calendar.current.dateComponents([.month, .day, .year], from: selectedDate)
+        dateComponents.year = (dateComponents.year ?? 0) - 1
+        if let newdate = Calendar.current.date(from: dateComponents) {
+            onChangeCurrentDate(newdate)
+        }
+    }
+}
+
+
+struct MonthPickerComponent: View {
+
+    private let calendar = Calendar.current
+    private let months: [String] = Calendar.current.shortMonthSymbols
+    private var years: CountableRange<Int> = CountableRange<Int>(uncheckedBounds: (lower: 0, upper: 1))
+    private let currentMonthFormatted: String
+    private let currentYearFormatted: String
+
+    @ObservedObject private var viewModel: MonthPickerComponentViewModel
+
+    init(viewModel: MonthPickerComponentViewModel) {
+        self.viewModel = viewModel
+        let start = calendar.component(.year, from: Date.distantPast)
+        let future = calendar.component(.year, from: Date.distantFuture)
+        years = CountableRange<Int>(uncheckedBounds: (lower: start, upper: future))
+
+        currentMonthFormatted = Formatters.onlyMonth.string(for: viewModel.selectedDate) ?? ""
+        currentYearFormatted = Formatters.onlyYear.string(for: viewModel.selectedDate) ?? ""
+    }
+
+    var body: some View {
+
+        VStack {
+            HStack {
+                Button {
+                    viewModel.previousYear()
+                } label: {
+                    Image(systemName: "chevron.left")
+                        .foregroundColor(.blue)
+                        .frame(width: 24.0)
+                }
+
+                Text(currentYearFormatted)
+                    .foregroundColor(.blue).bold()
+                    .transition(.move(edge: .trailing))
+
+                Spacer()
+                Button {
+                    viewModel.nextYear()
+                } label: {
+                    Image(systemName: "chevron.right")
+                        .foregroundColor(.blue)
+                        .frame(width: 24.0)
+                }
+            }
+            .padding(.all, 8)
+            .background(Color.clear)
+
+            ScrollView(.horizontal) {
+                ScrollViewReader { value in
+                    HStack() {
+                        ForEach(months, id: \.self) { item in
+                            Button {
+                                viewModel.onMonthSelected(month: item)
+                            } label: {
+                                Text(item)
+                                    .foregroundColor(
+                                        item == currentMonthFormatted ? .white : .black
+                                    )
+                                    .padding(8)
+                                    .background(content: {
+                                        item == currentMonthFormatted ? Color.blue : Color.clear
+                                    })
+                                    .cornerRadius(4)
+                                    .id(item)
+                            }
+
+                        }
+                    }
+                    .padding(EdgeInsets(top: 8, leading: 16, bottom: 16, trailing: 8))
+                    .onAppear{
+                        value.scrollTo(currentMonthFormatted)
+                    }
+                }
+            }
         }
     }
 

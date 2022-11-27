@@ -74,7 +74,7 @@ struct ExpenseDetailView: View {
                 .multilineTextAlignment(.center)
 #if os(iOS)
                 .fontWeight(.heavy)
-                .font(.system(size: 50))
+                .font(.system(size: 60))
                 .keyboardType(.decimalPad)
 #endif
                 .focused($amountIsFocused)
@@ -89,6 +89,8 @@ struct ExpenseDetailView: View {
                 )
                 .labelsHidden()
 
+                Text("Account")
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 Picker(selection: $selectedAccount, label: Text("Account")) {
                     ForEach(0..<viewModel.accounts.count, id: \.self) { index in
                         Text(viewModel.accounts[index].name ?? "-")
@@ -98,7 +100,7 @@ struct ExpenseDetailView: View {
                             .tag(index)
                     }
                 }
-                .frame(height: 140)
+                .frame(height: 60)
                 .onChange(of: selectedAccount) { index in
                     viewModel.onUpdateAccount(atIndex: index)
                 }
@@ -106,6 +108,8 @@ struct ExpenseDetailView: View {
                 .pickerStyle(WheelPickerStyle())
 #endif
 
+                Text("Category")
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 HStack {
                     Button(action: {
                         viewModel.onAddCategory()
@@ -122,7 +126,7 @@ struct ExpenseDetailView: View {
                                 .tag(index)
                         }
                     }
-                    .frame(height: 140)
+                    .frame(height: 50)
                     .onChange(of: selectedCategory) { index in
                         viewModel.onUpdateCategory(atIndex: index)
                     }
@@ -130,6 +134,9 @@ struct ExpenseDetailView: View {
                     .pickerStyle(WheelPickerStyle())
 #endif
                 }
+
+                Text("Tags")
+                    .frame(maxWidth: .infinity, alignment: .leading)
 
                 HStack{
 
@@ -140,33 +147,35 @@ struct ExpenseDetailView: View {
                             .font(.system(size: 30.0, weight: .semibold))
                     }
 
-                    LazyHGrid (rows: [GridItem(.adaptive(minimum: 200))], spacing: 8) {
-                        ForEach(Array(viewModel.availableTags)) { tag in
-                            Button {
-                                viewModel.onUpdate(tag: tag)
-                            } label: {
-                                Text(tag.name ?? "-")
-                                    .font(.system(size: 20))
-                                    .bold()
-                                    .padding(8)
-                                    .foregroundColor(
-                                        viewModel.tags.contains(where: { aTag in
-                                            tag.objectID == aTag.objectID
-                                        }) ?
-                                        Color.white : Color.blue
-                                    )
-                                    .background {
-                                        viewModel.tags.contains(where: { aTag in
-                                            tag.objectID == aTag.objectID
-                                        }) ?
-                                        Color.green.opacity(0.3) : Color.gray.opacity(0.1)
-                                    }
-                                    .cornerRadius(4)
-                            }
+                    TagCloudView(tags: viewModel.availableTags)
 
-                        }
-                    }
-                    .frame(maxWidth: .infinity)
+//                    LazyVGrid (columns: [GridItem(.adaptive(minimum: 200))], spacing: 8) {
+//                        ForEach(Array(viewModel.availableTags)) { tag in
+//                            Button {
+//                                viewModel.onUpdate(tag: tag)
+//                            } label: {
+//                                Text(tag.name ?? "-")
+//                                    .font(.system(size: 20))
+//                                    .bold()
+//                                    .padding(8)
+//                                    .foregroundColor(
+//                                        viewModel.tags.contains(where: { aTag in
+//                                            tag.objectID == aTag.objectID
+//                                        }) ?
+//                                        Color.white : Color.blue
+//                                    )
+//                                    .background {
+//                                        viewModel.tags.contains(where: { aTag in
+//                                            tag.objectID == aTag.objectID
+//                                        }) ?
+//                                        Color.green.opacity(0.3) : Color.gray.opacity(0.1)
+//                                    }
+//                                    .cornerRadius(4)
+//                            }
+//
+//                        }
+//                    }
+//                    .frame(maxWidth: .infinity)
 
                 }
 
@@ -185,7 +194,7 @@ struct ExpenseDetailView: View {
                     Color.white
                 )
                 .background {
-                    Color.blue.opacity(0.3)
+                    Color.blue
                 }
                 .cornerRadius(8)
 
@@ -201,6 +210,11 @@ struct ExpenseDetailView: View {
             viewModel.categories.enumerated().forEach { (index, c) in
                 if c == viewModel.category {
                     selectedCategory = index
+                }
+            }
+            viewModel.accounts.enumerated().forEach { (index, c) in
+                if c == viewModel.account {
+                    selectedAccount = index
                 }
             }
             titleIsFocused = viewModel.expense == nil

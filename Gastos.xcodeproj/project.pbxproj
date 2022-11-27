@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0306B7872932EB0500B2FB3A /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0306B7842932EB0500B2FB3A /* AccountViewModel.swift */; };
 		0306B7882932EB0500B2FB3A /* AccountDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0306B7862932EB0500B2FB3A /* AccountDetailView.swift */; };
+		0306B78A2933E96B00B2FB3A /* TagCloudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0306B7892933E96B00B2FB3A /* TagCloudView.swift */; };
 		030B1D2529327DDF00495F9E /* Gastos.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0372DC432930F24400F4C1F1 /* Gastos.xcdatamodeld */; };
 		030B1D2629327DDF00495F9E /* CategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0372DC7E29314E3C00F4C1F1 /* CategoryViewModel.swift */; };
 		030B1D2729327DDF00495F9E /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0372DC842931721E00F4C1F1 /* Formatters.swift */; };
@@ -45,6 +46,7 @@
 /* Begin PBXFileReference section */
 		0306B7842932EB0500B2FB3A /* AccountViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
 		0306B7862932EB0500B2FB3A /* AccountDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountDetailView.swift; sourceTree = "<group>"; };
+		0306B7892933E96B00B2FB3A /* TagCloudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCloudView.swift; sourceTree = "<group>"; };
 		030B1D3A29327DDF00495F9E /* Gastos MacOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Gastos MacOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0372DC3C2930F24400F4C1F1 /* Gastos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gastos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0372DC3F2930F24400F4C1F1 /* GastosApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GastosApp.swift; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 			isa = PBXGroup;
 			children = (
 				0372DC842931721E00F4C1F1 /* Formatters.swift */,
+				0306B7892933E96B00B2FB3A /* TagCloudView.swift */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -450,6 +453,7 @@
 				0372DC5E2930F34B00F4C1F1 /* HomeViewModel.swift in Sources */,
 				0372DC612931208C00F4C1F1 /* CancelBag.swift in Sources */,
 				0372DC402930F24400F4C1F1 /* GastosApp.swift in Sources */,
+				0306B78A2933E96B00B2FB3A /* TagCloudView.swift in Sources */,
 				0372DC472930F24400F4C1F1 /* HomeView.swift in Sources */,
 				0372DC6F2931412F00F4C1F1 /* ExpenseDetailViewModel.swift in Sources */,
 				0372DC422930F24400F4C1F1 /* Persistence.swift in Sources */,
