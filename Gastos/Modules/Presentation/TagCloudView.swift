@@ -1,5 +1,5 @@
 //
-//  TagCloudView.swift
+//  TCloudView.swift
 //  Gastos
 //
 //  Created by Adam Teale on 27-11-22.
@@ -7,11 +7,20 @@
 
 import SwiftUI
 
-struct TagCloudView: View {
-    var tags: [Tag]
+struct TagCloudView<T: TagCloudable>: View {
 
     @State private var totalHeight = CGFloat.zero       // << variant for ScrollView/List
                          //    = CGFloat.infinity   // << variant for VStack
+
+    private var tags: [T]
+    private var currentSelection: [T]?
+    private var onUpdate: (T) -> Void
+
+    init(tags: [T], currentSelection: [T]?, onUpdate: @escaping (T) -> Void) {
+        self.tags = tags
+        self.currentSelection = currentSelection
+        self.onUpdate = onUpdate
+    }
 
     var body: some View {
         VStack {
@@ -29,7 +38,7 @@ struct TagCloudView: View {
 
         return ZStack(alignment: .topLeading) {
             ForEach(self.tags, id: \.self) { tag in
-                self.item(for: tag.name ?? "")
+                self.item(for: tag)
                     .padding([.horizontal, .vertical], 4)
                     .alignmentGuide(.leading, computeValue: { d in
                         if (abs(width - d.width) > g.size.width)
@@ -56,13 +65,28 @@ struct TagCloudView: View {
         }.background(viewHeightReader($totalHeight))
     }
 
-    private func item(for text: String) -> some View {
-        Text(text)
-            .padding(.all, 5)
-            .font(.body)
-            .background(Color.blue)
-            .foregroundColor(Color.white)
-            .cornerRadius(5)
+    private func item(for tag: T) -> some View {
+        Button {
+            onUpdate(tag)
+        } label: {
+            Text(tag.name ?? "-")
+                .font(.system(size: 20))
+                .bold()
+                .padding(8)
+                .foregroundColor(
+                    (currentSelection ?? []).contains(where: { aT in
+                        tag.objectID == aT.objectID
+                    }) ?
+                    Color.white : Color.black.opacity(0.5)
+                )
+                .background {
+                    (currentSelection ?? []).contains(where: { aT in
+                        tag.objectID == aT.objectID
+                    }) ?
+                    Color.green.opacity(0.5) : Color.clear
+                }
+                .cornerRadius(4)
+        }
     }
 
     private func viewHeightReader(_ binding: Binding<CGFloat>) -> some View {

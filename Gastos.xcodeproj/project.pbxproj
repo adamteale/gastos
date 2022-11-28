@@ -10,6 +10,9 @@
 		0306B7872932EB0500B2FB3A /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0306B7842932EB0500B2FB3A /* AccountViewModel.swift */; };
 		0306B7882932EB0500B2FB3A /* AccountDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0306B7862932EB0500B2FB3A /* AccountDetailView.swift */; };
 		0306B78A2933E96B00B2FB3A /* TagCloudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0306B7892933E96B00B2FB3A /* TagCloudView.swift */; };
+		0306B79029341DFB00B2FB3A /* Tag+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0306B78F29341DFB00B2FB3A /* Tag+Extension.swift */; };
+		0306B79129341DFD00B2FB3A /* Tag+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0306B78F29341DFB00B2FB3A /* Tag+Extension.swift */; };
+		0306B79329341E3500B2FB3A /* TagCloudable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0306B79229341E3500B2FB3A /* TagCloudable.swift */; };
 		030B1D2529327DDF00495F9E /* Gastos.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0372DC432930F24400F4C1F1 /* Gastos.xcdatamodeld */; };
 		030B1D2629327DDF00495F9E /* CategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0372DC7E29314E3C00F4C1F1 /* CategoryViewModel.swift */; };
 		030B1D2729327DDF00495F9E /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0372DC842931721E00F4C1F1 /* Formatters.swift */; };
@@ -47,6 +50,8 @@
 		0306B7842932EB0500B2FB3A /* AccountViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
 		0306B7862932EB0500B2FB3A /* AccountDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountDetailView.swift; sourceTree = "<group>"; };
 		0306B7892933E96B00B2FB3A /* TagCloudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCloudView.swift; sourceTree = "<group>"; };
+		0306B78F29341DFB00B2FB3A /* Tag+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tag+Extension.swift"; sourceTree = "<group>"; };
+		0306B79229341E3500B2FB3A /* TagCloudable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCloudable.swift; sourceTree = "<group>"; };
 		030B1D3A29327DDF00495F9E /* Gastos MacOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Gastos MacOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0372DC3C2930F24400F4C1F1 /* Gastos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gastos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0372DC3F2930F24400F4C1F1 /* GastosApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GastosApp.swift; sourceTree = "<group>"; };
@@ -120,6 +125,15 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		0306B78E29341DED00B2FB3A /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				0306B78F29341DFB00B2FB3A /* Tag+Extension.swift */,
+				0306B79229341E3500B2FB3A /* TagCloudable.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
 		0372DC332930F24400F4C1F1 = {
 			isa = PBXGroup;
 			children = (
@@ -164,6 +178,7 @@
 		0372DC542930F24E00F4C1F1 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				0306B78E29341DED00B2FB3A /* Data */,
 				0306B7812932EAF300B2FB3A /* Account */,
 				0372DC7B29314E3C00F4C1F1 /* Categories */,
 				0372DC68293140AB00F4C1F1 /* ExpenseDetail */,
@@ -428,6 +443,7 @@
 				030B1D2829327DDF00495F9E /* CategoryDetailView.swift in Sources */,
 				030B1D2929327DDF00495F9E /* TagsViewModel.swift in Sources */,
 				030B1D2A29327DDF00495F9E /* ExpenseDetailView.swift in Sources */,
+				0306B79129341DFD00B2FB3A /* Tag+Extension.swift in Sources */,
 				030B1D2B29327DDF00495F9E /* HomeViewModel.swift in Sources */,
 				030B1D2C29327DDF00495F9E /* CancelBag.swift in Sources */,
 				030B1D2D29327DDF00495F9E /* GastosApp.swift in Sources */,
@@ -450,9 +466,11 @@
 				0306B7882932EB0500B2FB3A /* AccountDetailView.swift in Sources */,
 				0372DC8E2932687C00F4C1F1 /* TagsViewModel.swift in Sources */,
 				0372DC6D2931412500F4C1F1 /* ExpenseDetailView.swift in Sources */,
+				0306B79329341E3500B2FB3A /* TagCloudable.swift in Sources */,
 				0372DC5E2930F34B00F4C1F1 /* HomeViewModel.swift in Sources */,
 				0372DC612931208C00F4C1F1 /* CancelBag.swift in Sources */,
 				0372DC402930F24400F4C1F1 /* GastosApp.swift in Sources */,
+				0306B79029341DFB00B2FB3A /* Tag+Extension.swift in Sources */,
 				0306B78A2933E96B00B2FB3A /* TagCloudView.swift in Sources */,
 				0372DC472930F24400F4C1F1 /* HomeView.swift in Sources */,
 				0372DC6F2931412F00F4C1F1 /* ExpenseDetailViewModel.swift in Sources */,

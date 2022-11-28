@@ -9,6 +9,7 @@ import Foundation
 import Combine
 import CoreData
 
+
 final class ExpenseDetailViewModel: ObservableObject {
 
     @Published var amount: Double
@@ -18,14 +19,16 @@ final class ExpenseDetailViewModel: ObservableObject {
     @Published var date: Date
     @Published var tags: Set<Tag>
 
-    @Published var categories: [Category]
+    @Published var availableCategories: [Category]
     @Published var availableTags: [Tag]
-    @Published var accounts: [Account]
+    @Published var availableAccounts: [Account]
     @Published var activeCategory: Category?
     @Published var isPresentingCategory = false
     @Published var activeTag: Tag?
     @Published var isPresentingTag = false
 
+    @Published var activeAccount: Account?
+    @Published var isPresentingAccount = false
     private(set) var expense: Expense?
 
     private(set) var managedObjectContext: NSManagedObjectContext
@@ -40,9 +43,9 @@ final class ExpenseDetailViewModel: ObservableObject {
         managedObjectContext: NSManagedObjectContext
     ) {
         self.expense = expense
-        self.categories = categories
+        self.availableCategories = categories
         self.availableTags = availableTags
-        self.accounts = availableAccounts
+        self.availableAccounts = availableAccounts
         self.managedObjectContext = managedObjectContext
 
         amount = expense?.amount ?? 0
@@ -53,7 +56,11 @@ final class ExpenseDetailViewModel: ObservableObject {
         tags = expense?.tags as? Set ?? Set<Tag>()
     }
 
-    func onUpdate(tag: Tag) {
+    func onUpdateAmount(_ amount: Double) {
+        self.amount = amount
+    }
+
+    func onUpdateTag(_ tag: Tag) {
         if tags.contains(tag) {
             tags.remove(tag)
         } else {
@@ -61,22 +68,21 @@ final class ExpenseDetailViewModel: ObservableObject {
         }
     }
 
-    func onUpdateCategory(atIndex index: Int) {
-        self.category = categories[index]
+    func onUpdateCategory(_ category: Category) {
+        self.category = category
     }
 
-    func onUpdateAccount(atIndex index: Int) {
-        self.account = accounts[index]
+    func onUpdateAccount(_ account: Account) {
+        self.account = account
     }
-
 
     func onSave(onSuccess: () -> Void ) {
         if expense == nil {
             expense = Expense(context: managedObjectContext)
         }
         expense?.title = title
-        expense?.amount = amount
-        expense?.category = category ?? categories.first
+        expense?.amount = amount ?? 0
+        expense?.category = category ?? availableCategories.first
         expense?.tags = NSSet(set: tags)
         expense?.date = date
         expense?.account = account
@@ -102,4 +108,8 @@ final class ExpenseDetailViewModel: ObservableObject {
         isPresentingTag = true
     }
 
+    func onAddAccount() {
+        activeAccount = nil
+        isPresentingAccount = true
+    }
 }

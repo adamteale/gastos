@@ -17,6 +17,15 @@ struct Formatters {
         return numberFormatter
     }()
 
+    static let currencyFormatterNoSymbol: Formatter = {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        numberFormatter.zeroSymbol = ""
+        numberFormatter.locale = Locale(identifier: "es_CL")
+        numberFormatter.maximumFractionDigits = 0
+        return numberFormatter
+    }()
+
     static let onlyDate: Formatter = {
         let formatter = DateFormatter()
         formatter.timeStyle = .none

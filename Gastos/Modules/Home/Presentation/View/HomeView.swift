@@ -44,10 +44,15 @@ struct HomeView: View {
                     )
                 )
 
-                Text(Formatters.currencyFormatter.string(for: viewModel.totalAmount) ?? "")
-                    .font(.system(size: 40))
-                    .fontWeight(.black)
-                    .padding(4)
+                HStack(alignment: .center, spacing: 2) {
+                    Text("$")
+                        .font(.system(size: 30))
+                        .fontWeight(.black)
+                    Text(Formatters.currencyFormatterNoSymbol.string(for: viewModel.totalAmount) ?? "" )
+                        .font(.system(size: 40))
+                        .fontWeight(.black)
+                }
+                .padding(4)
 
                 ZStack(alignment: .bottom) {
                     List {
@@ -68,32 +73,31 @@ struct HomeView: View {
                             )
                         }
                     }
+                    .listStyle(.grouped)
+                }
+                .safeAreaInset(edge: .bottom, content: {
                     HStack {
                         Spacer()
                         Button(action: viewModel.onAddExpense) {
-                            Group {
-                                Image(systemName: "plus")
-                                    .resizable()
-                                    .frame(width: 50, height: 50)
-                                    .tint(Color.white)
+                            Image(systemName: "plus")
+                                .resizable()
+                                .frame(width: 40, height: 40)
+                                .tint(Color.white)
+                            .padding()
+                            .background {
+                                Color.blue
                             }
-                                .frame(width: 50, height: 50)
-                                .padding()
-                                .background {
-                                    Color.blue
-                                }
-                                .cornerRadius(41)
-
+                            .cornerRadius(40)
                         }
                     }
                     .padding()
-                }
+                })
                 .toolbar {
-#if os(iOS)
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        EditButton()
-                    }
-#endif
+//#if os(iOS)
+//                    ToolbarItem(placement: .navigationBarLeading) {
+//                        EditButton()
+//                    }
+//#endif
                     ToolbarItem {
                         Button(action: viewModel.onAddAccount) {
                             Label("Add Account", systemImage: "creditcard")
@@ -116,7 +120,6 @@ struct HomeView: View {
                     }
                 }
             }
-
         }
         .onAppear{ viewModel.onRefresh() }
         .sheet(isPresented: $viewModel.isPresentingExpense) {
@@ -188,13 +191,19 @@ struct ExpensesSection: View {
                 } label: {
                     VStack(alignment: .leading, spacing: 2) {
                         Text(expense.title ?? "")
-                            .font(.system(size: 24))
-                            .fontWeight(.heavy)
-                        Text(Formatters.currencyFormatter.string(for: expense.amount) ?? "")
-                            .font(.system(size: 24))
+                            .multilineTextAlignment(.leading)
+                            .font(.system(size: 18))
+                            .fontWeight(.bold)
+                        HStack(alignment: .center, spacing: 0) {
+                            Text("$")
+                                .font(.system(size: 20))
+                                .fontWeight(.black)
+                        Text(Formatters.currencyFormatterNoSymbol.string(for: expense.amount) ?? "")
+                            .font(.system(size: 30))
                             .fontWeight(.black)
+                        }
                         Text(expense.category?.name ?? "")
-                            .font(.system(size: 20))
+                            .font(.system(size: 18))
                             .fontWeight(.medium)
                         Text(expense.account?.name ?? "")
                             .font(.system(size: 14))

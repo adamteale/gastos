@@ -29,57 +29,69 @@ struct ExpenseDetailView: View {
     }
 
     var body: some View {
-        HStack {
-            Button(action: {
-                if viewModel.expense == nil {
-                    isPresented = false
-                } else {
-                    viewModel.onSave {
-                        isPresented = false
-                    }
-                }
-            }) {
-                Label("", systemImage: "arrow.backward")
-                    .font(.system(size: 20))
-            }
-            Spacer()
-                .frame(maxWidth:.infinity)
-        }
-        .padding()
 
         ScrollView {
+
+            HStack {
+                Button(action: {
+                    if viewModel.expense == nil {
+                        isPresented = false
+                    } else {
+                        viewModel.onSave {
+                            isPresented = false
+                        }
+                    }
+                }) {
+                    Image(systemName: "xmark.circle.fill")
+                        .tint(.black)
+                        .font(.system(size: 20.0, weight: .semibold))
+                }
+                Spacer()
+                    .frame(maxWidth:.infinity)
+            }
+            .padding(.bottom)
+
             VStack (spacing: 16) {
+                HStack(alignment: .center) {
+                    Spacer()
+                    HStack {
+                        Text("$")
+                            .font(.system(size: 30))
+                            .fontWeight(.heavy)
+                            .frame(alignment:.trailing)
+                        TextField(
+                            "0",
+                            value: $viewModel.amount,
+                            formatter: Formatters.currencyFormatterNoSymbol
+                        )
+                        .multilineTextAlignment(.leading)
+#if os(iOS)
+                        .fontWeight(.heavy)
+                        .font(.system(size: 60))
+                        .keyboardType(.decimalPad)
+#endif
+                        .focused($amountIsFocused)
+                        .onSubmit {
+                            amountIsFocused = false
+                            titleIsFocused = true
+                        }
+                    }
+                    Spacer()
+                }
+
                 TextField(
-                    "Title",
+                    "Desc",
                     text: $viewModel.title,
                     axis: .vertical
                 )
-                .multilineTextAlignment(.center)
+                .multilineTextAlignment(.leading)
                 .font(.system(size: 40))
 #if os(iOS)
                 .fontWeight(.semibold)
 #endif
-                .padding()
                 .focused($titleIsFocused)
                 .onSubmit {
                     titleIsFocused = false
-                    amountIsFocused = true
-                }
-
-                TextField(
-                    "",
-                    value: $viewModel.amount,
-                    formatter: Formatters.currencyFormatter
-                )
-                .multilineTextAlignment(.center)
-#if os(iOS)
-                .fontWeight(.heavy)
-                .font(.system(size: 60))
-                .keyboardType(.decimalPad)
-#endif
-                .focused($amountIsFocused)
-                .onSubmit {
-                    amountIsFocused = false
                 }
 
                 DatePicker(
@@ -89,141 +101,98 @@ struct ExpenseDetailView: View {
                 )
                 .labelsHidden()
 
-                Text("Account")
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                Picker(selection: $selectedAccount, label: Text("Account")) {
-                    ForEach(0..<viewModel.accounts.count, id: \.self) { index in
-                        Text(viewModel.accounts[index].name ?? "-")
-                            .minimumScaleFactor(0.2)
-                            .font(.system(size: 30))
-                            .fontWeight(.semibold)
-                            .tag(index)
+                HStack(alignment: .center) {
+                    Text("Account")
+                        .bold()
+                        .frame(maxWidth: .infinity, alignment: .leading)
+
+                    Button(action: {
+                        viewModel.onAddAccount()
+                    }) {
+                        Image(systemName: "plus.circle")
+                            .font(.system(size: 30.0, weight: .semibold))
                     }
                 }
-                .frame(height: 60)
-                .onChange(of: selectedAccount) { index in
-                    viewModel.onUpdateAccount(atIndex: index)
-                }
-#if os(iOS)
-                .pickerStyle(WheelPickerStyle())
-#endif
+                TagCloudView(
+                    tags: viewModel.availableAccounts,
+                    currentSelection: {
+                        if let account = viewModel.account {
+                            return [account]
+                        } else {
+                            return nil
+                        }
+                    }(),
+                    onUpdate: viewModel.onUpdateAccount
+                )
 
-                Text("Category")
-                    .frame(maxWidth: .infinity, alignment: .leading)
                 HStack {
+                    Text("Category")
+                        .bold()
+                        .frame(maxWidth: .infinity, alignment: .leading)
                     Button(action: {
                         viewModel.onAddCategory()
                     }) {
                         Image(systemName: "plus.circle")
                             .font(.system(size: 30.0, weight: .semibold))
                     }
-                    Picker(selection: $selectedCategory, label: Text("Category")) {
-                        ForEach(0..<viewModel.categories.count, id: \.self) { index in
-                            Text(viewModel.categories[index].name ?? "-")
-                                .minimumScaleFactor(0.2)
-                                .font(.system(size: 30))
-                                .fontWeight(.semibold)
-                                .tag(index)
-                        }
-                    }
-                    .frame(height: 50)
-                    .onChange(of: selectedCategory) { index in
-                        viewModel.onUpdateCategory(atIndex: index)
-                    }
-#if os(iOS)
-                    .pickerStyle(WheelPickerStyle())
-#endif
                 }
-
-                Text("Tags")
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                TagCloudView(
+                    tags: viewModel.availableCategories,
+                    currentSelection: {
+                        if let category = viewModel.category {
+                            return [category]
+                        } else {
+                            return nil
+                        }
+                    }(),
+                    onUpdate: viewModel.onUpdateCategory
+                )
 
                 HStack{
-
+                Text("Tags")
+                    .bold()
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     Button(action: {
                         viewModel.onAddTag()
                     }) {
                         Image(systemName: "plus.circle")
                             .font(.system(size: 30.0, weight: .semibold))
                     }
-
-                    TagCloudView(tags: viewModel.availableTags)
-
-//                    LazyVGrid (columns: [GridItem(.adaptive(minimum: 200))], spacing: 8) {
-//                        ForEach(Array(viewModel.availableTags)) { tag in
-//                            Button {
-//                                viewModel.onUpdate(tag: tag)
-//                            } label: {
-//                                Text(tag.name ?? "-")
-//                                    .font(.system(size: 20))
-//                                    .bold()
-//                                    .padding(8)
-//                                    .foregroundColor(
-//                                        viewModel.tags.contains(where: { aTag in
-//                                            tag.objectID == aTag.objectID
-//                                        }) ?
-//                                        Color.white : Color.blue
-//                                    )
-//                                    .background {
-//                                        viewModel.tags.contains(where: { aTag in
-//                                            tag.objectID == aTag.objectID
-//                                        }) ?
-//                                        Color.green.opacity(0.3) : Color.gray.opacity(0.1)
-//                                    }
-//                                    .cornerRadius(4)
-//                            }
-//
-//                        }
-//                    }
-//                    .frame(maxWidth: .infinity)
-
                 }
-
-                Button(action: {
-                    viewModel.onSave {
-                        isPresented = false
-                    }
-                }) {
-                    Text("Save")
-                        .font(.system(size: 30))
-                        .bold()
-                }
-                .frame(maxWidth: .infinity)
-                .padding(8)
-                .foregroundColor(
-                    Color.white
+                TagCloudView(
+                    tags: viewModel.availableTags,
+                    currentSelection: Array(viewModel.tags),
+                    onUpdate: viewModel.onUpdateTag
                 )
-                .background {
-                    Color.blue
-                }
-                .cornerRadius(8)
+
 
             }
+
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .padding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .onTapGesture(perform: {
             titleIsFocused = false
             amountIsFocused = false
         })
         .onAppear{
-            viewModel.categories.enumerated().forEach { (index, c) in
+            viewModel.availableCategories.enumerated().forEach { (index, c) in
                 if c == viewModel.category {
                     selectedCategory = index
                 }
             }
-            viewModel.accounts.enumerated().forEach { (index, c) in
+            viewModel.availableAccounts.enumerated().forEach { (index, c) in
                 if c == viewModel.account {
                     selectedAccount = index
                 }
             }
-            titleIsFocused = viewModel.expense == nil
+            amountIsFocused = viewModel.expense == nil
         }
         .sheet(isPresented: $viewModel.isPresentingCategory) {
             CategoryDetailView(
                 viewModel: CategoryDetailViewModel(
                     category: viewModel.activeCategory,
-                    categories: viewModel.categories,
+                    categories: viewModel.availableCategories,
                     managedObjectContext: viewModel.managedObjectContext
                 ),
                 isPresented: $viewModel.isPresentingCategory
@@ -239,6 +208,17 @@ struct ExpenseDetailView: View {
                 isPresented: $viewModel.isPresentingTag
             )
         }
+        .sheet(isPresented: $viewModel.isPresentingAccount) {
+            AccountDetailView(
+                viewModel: AccountDetailViewModel(
+                    account: viewModel.activeAccount,
+                    accounts: viewModel.availableAccounts,
+                    managedObjectContext: viewModel.managedObjectContext
+                ),
+                isPresented: $viewModel.isPresentingTag
+            )
+        }
+        .ignoresSafeArea(edges: .bottom)
     }
 
 }
