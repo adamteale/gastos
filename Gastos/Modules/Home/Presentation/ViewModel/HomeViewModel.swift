@@ -134,7 +134,7 @@ final class HomeViewModel: ObservableObject {
 
             if let dateFormatted = Formatters.dateSectionFormatting.string(for: expense.date ?? Date()) {
 
-                var dateComponents = calendar.dateComponents([.month, .day, .year], from: expense.date ?? Date())
+                let dateComponents = calendar.dateComponents([.month, .day, .year], from: expense.date ?? Date())
                 let keyDate = calendar.date(from: dateComponents) ?? Date()
 
                 if partialResult.0[dateFormatted] == nil {
