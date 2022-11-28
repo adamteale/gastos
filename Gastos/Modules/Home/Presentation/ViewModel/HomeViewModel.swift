@@ -10,7 +10,8 @@ import CloudKit
 import CoreData
 import Combine
 
-struct ExpensesSectionViewArgs {
+struct ExpensesSectionViewArgs: Identifiable {
+    let id = UUID()
     let date: Date
     let dateFormatted: String
     var expenses: [Expense]

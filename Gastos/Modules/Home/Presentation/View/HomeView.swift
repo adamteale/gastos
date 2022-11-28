@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct HomeView: View {
 
@@ -13,10 +14,10 @@ struct HomeView: View {
     @State var searchOn: Bool = false
     @FocusState private var searchIsFocused: Bool
 
-    var body: some View {
-        NavigationView {
-            VStack {
 
+    var body: some View {
+        Group {
+            VStack {
                 if searchOn {
                     HStack {
                         TextField(
@@ -54,7 +55,8 @@ struct HomeView: View {
                 }
                 .padding(4)
 
-                ZStack(alignment: .bottom) {
+                NavigationView {
+
                     List {
                         ForEach(viewModel.expensesSections, id: \.dateFormatted) { section in
                             ExpensesSection(
@@ -67,14 +69,21 @@ struct HomeView: View {
                                     if let first = indexSet.first {
                                         viewModel.deleteItems(objectID: section.expenses[first].objectID)
                                     }
-                                }
+                                },
+                                categories: viewModel.categories,
+                                availableTags: viewModel.availableTags,
+                                availableAccounts: viewModel.accounts,
+                                managedObjectContext: viewModel.managedObjectContext,
+                                isPresented: false
                             )
+
                         }
                     }
 #if os(iOS)
                     .listStyle(.grouped)
 #endif
                 }
+
                 .safeAreaInset(edge: .bottom, content: {
                     HStack {
                         Spacer()
@@ -125,18 +134,18 @@ struct HomeView: View {
             }
         }
         .onAppear{ viewModel.onRefresh() }
-        .sheet(isPresented: $viewModel.isPresentingExpense) {
-            ExpenseDetailView(
-                viewModel: ExpenseDetailViewModel(
-                    expense: viewModel.activeExpense,
-                    categories: viewModel.categories,
-                    availableTags: viewModel.availableTags,
-                    availableAccounts: viewModel.accounts,
-                    managedObjectContext: viewModel.managedObjectContext
-                ),
-                isPresented: $viewModel.isPresentingExpense
-            )
-        }
+//        .sheet(isPresented: $viewModel.isPresentingExpense) {
+//            ExpenseDetailView(
+//                viewModel: ExpenseDetailViewModel(
+//                    expense: viewModel.activeExpense,
+//                    categories: viewModel.categories,
+//                    availableTags: viewModel.availableTags,
+//                    availableAccounts: viewModel.accounts,
+//                    managedObjectContext: viewModel.managedObjectContext
+//                ),
+//                isPresented: $viewModel.isPresentingExpense
+//            )
+//        }
         .sheet(isPresented: $viewModel.isPresentingCategory) {
             CategoryDetailView(
                 viewModel: CategoryDetailViewModel(
@@ -182,6 +191,13 @@ struct ExpensesSection: View {
     var onEditItem: (Int) -> Void
     var deleteItems: (IndexSet) -> Void
 
+    var categories: [Category]
+    var availableTags: [Tag]
+    var availableAccounts: [Account]
+    var managedObjectContext: NSManagedObjectContext
+
+    @State var isPresented = false
+
     var body: some View {
         Section(header: Text(title)) {
             ForEach(
@@ -189,40 +205,51 @@ struct ExpensesSection: View {
                     expenses.enumerated()),
                 id: \.offset
             ) { index, expense in
-                Button {
-                    onEditItem(index)
-                } label: {
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(expense.title ?? "")
-                            .multilineTextAlignment(.leading)
-                            .font(.system(size: 18))
+                NavigationLink(
+                    destination: ExpenseDetailView(
+                        viewModel: ExpenseDetailViewModel(
+                            expense: expense,
+                            categories: categories,
+                            availableTags: availableTags,
+                            availableAccounts: availableAccounts,
+                            managedObjectContext: managedObjectContext
+                        ),
+                        isPresented: $isPresented
+                    ),
+                    isActive: $isPresented,
+                    label: {
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(expense.title ?? "")
+                                .multilineTextAlignment(.leading)
+                                .font(.system(size: 18))
 #if os(iOS)
-                            .fontWeight(.bold)
+                                .fontWeight(.bold)
 #endif
-                        HStack(alignment: .center, spacing: 0) {
-                            Text("$")
-                                .font(.system(size: 20))
-                                .fontWeight(.black)
-                        Text(Formatters.currencyFormatterNoSymbol.string(for: expense.amount) ?? "")
-                            .font(.system(size: 30))
-                            .fontWeight(.black)
-                        }
-                        Text(expense.category?.name ?? "")
-                            .font(.system(size: 18))
-                            .fontWeight(.medium)
-                        Text(expense.account?.name ?? "")
-                            .font(.system(size: 14))
-                            .fontWeight(.medium)
-                            .padding(4)
-                            .background {
-                                Color.blue.opacity(0.3)
+                            HStack(alignment: .center, spacing: 0) {
+                                Text("$")
+                                    .font(.system(size: 20))
+                                    .fontWeight(.black)
+                                Text(Formatters.currencyFormatterNoSymbol.string(for: expense.amount) ?? "")
+                                    .font(.system(size: 30))
+                                    .fontWeight(.black)
                             }
-                            .cornerRadius(4)
-                        if expense.tags?.count ?? 0 > 0 {
-                            TagsComponent(tags: Array(expense.tags as? Set<Tag> ?? Set<Tag>()))
+                            Text(expense.category?.name ?? "")
+                                .font(.system(size: 18))
+                                .fontWeight(.medium)
+                            Text(expense.account?.name ?? "")
+                                .font(.system(size: 14))
+                                .fontWeight(.medium)
+                                .padding(4)
+                                .background {
+                                    Color.blue.opacity(0.3)
+                                }
+                                .cornerRadius(4)
+                            if expense.tags?.count ?? 0 > 0 {
+                                TagsComponent(tags: Array(expense.tags as? Set<Tag> ?? Set<Tag>()))
+                            }
                         }
                     }
-                }
+                )
             }
             .onDelete(perform: deleteItems)
         }

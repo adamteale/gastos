@@ -56,7 +56,9 @@ struct ExpenseDetailView: View {
                             isPresented = false
                         }
                     }
+#if os(iOS)
                     .bold()
+#endif
                     .padding(8)
                     .background {
                         Color("Success")
