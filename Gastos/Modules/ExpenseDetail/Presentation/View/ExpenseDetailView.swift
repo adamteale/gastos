@@ -17,6 +17,7 @@ struct ExpenseDetailView: View {
 
     @FocusState private var titleIsFocused: Bool
     @FocusState private var amountIsFocused: Bool
+    @State private var showDeleteConfirmation = false
 
     init(
         viewModel: ExpenseDetailViewModel,
@@ -30,9 +31,9 @@ struct ExpenseDetailView: View {
 
     var body: some View {
 
-        ScrollView {
+        VStack {
 
-            HStack {
+            HStack(alignment: .center) {
                 Button(action: {
                     if viewModel.expense == nil {
                         isPresented = false
@@ -48,135 +49,185 @@ struct ExpenseDetailView: View {
                 }
                 Spacer()
                     .frame(maxWidth:.infinity)
-            }
-            .padding(.bottom)
 
-            VStack (spacing: 16) {
-                HStack(alignment: .center) {
-                    Spacer()
-                    HStack {
-                        Text("$")
-                            .font(.system(size: 30))
-                            .fontWeight(.heavy)
-                            .frame(alignment:.trailing)
-                        TextField(
-                            "0",
-                            value: $viewModel.amount,
-                            formatter: Formatters.currencyFormatterNoSymbol
-                        )
-                        .multilineTextAlignment(.leading)
-#if os(iOS)
-                        .fontWeight(.heavy)
-                        .font(.system(size: 60))
-                        .keyboardType(.decimalPad)
-#endif
-                        .focused($amountIsFocused)
-                        .onSubmit {
-                            amountIsFocused = false
-                            titleIsFocused = true
+                Text("Save")
+                    .onTapGesture {
+                        viewModel.onSave {
+                            isPresented = false
                         }
                     }
-                    Spacer()
-                }
-
-#if os(iOS)
-                TextField(
-                    "Desc",
-                    text: $viewModel.title,
-                    axis: .vertical
-                )
-                .multilineTextAlignment(.leading)
-                .font(.system(size: 40))
-                .focused($titleIsFocused)
-                .onSubmit {
-                    titleIsFocused = false
-                }
-#else
-                TextField(
-                    "Desc",
-                    text: $viewModel.title
-                )
-                .multilineTextAlignment(.leading)
-                .font(.system(size: 40))
-                .focused($titleIsFocused)
-                .onSubmit {
-                    titleIsFocused = false
-                }
-#endif
-                DatePicker(
-                    "fecha",
-                    selection: $viewModel.date,
-                    displayedComponents: [.date]
-                )
-                .labelsHidden()
-
-                HStack(alignment: .center) {
-                    Text("Account")
-                        .bold()
-                        .frame(maxWidth: .infinity, alignment: .leading)
-
-                    Button(action: {
-                        viewModel.onAddAccount()
-                    }) {
-                        Image(systemName: "plus.circle")
-                            .font(.system(size: 30.0, weight: .semibold))
-                    }
-                }
-                TagCloudView(
-                    tags: viewModel.availableAccounts,
-                    currentSelection: {
-                        if let account = viewModel.account {
-                            return [account]
-                        } else {
-                            return nil
-                        }
-                    }(),
-                    onUpdate: viewModel.onUpdateAccount,
-                    onEditTag: viewModel.onEditAccount
-                )
-
-                HStack {
-                    Text("Category")
-                        .bold()
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    Button(action: {
-                        viewModel.onAddCategory()
-                    }) {
-                        Image(systemName: "plus.circle")
-                            .font(.system(size: 30.0, weight: .semibold))
-                    }
-                }
-                TagCloudView(
-                    tags: viewModel.availableCategories,
-                    currentSelection: {
-                        if let category = viewModel.category {
-                            return [category]
-                        } else {
-                            return nil
-                        }
-                    }(),
-                    onUpdate: viewModel.onUpdateCategory,
-                    onEditTag: viewModel.onEditCategory
-                )
-
-                HStack{
-                Text("Tags")
                     .bold()
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(8)
+                    .background {
+                        Color("Success")
+                    }
+                    .foregroundColor(
+                        Color("TextActive"))
+                    .cornerRadius(4)
+
+                Spacer()
+                    .frame(maxWidth:.infinity)
+
+                if viewModel.expense != nil {
                     Button(action: {
-                        viewModel.onAddTag()
-                    }) {
-                        Image(systemName: "plus.circle")
-                            .font(.system(size: 30.0, weight: .semibold))
+                        showDeleteConfirmation = true
+                    }
+                    ){
+                        Image(systemName: "trash")
+                            .tint(Color.red)
+                            .onTapGesture {
+                                showDeleteConfirmation = true
+                            }
+                    }
+                    .confirmationDialog(
+                        "Really?",
+                        isPresented: $showDeleteConfirmation
+                    ) {
+                        Button("Si", role: .destructive) {
+                            viewModel.onDelete()
+                            showDeleteConfirmation = false
+                        }
+                        Button("No", role: .cancel) {}
                     }
                 }
-                TagCloudView(
-                    tags: viewModel.availableTags,
-                    currentSelection: Array(viewModel.tags),
-                    onUpdate: viewModel.onUpdateTag,
-                    onEditTag: viewModel.onEditTag
-                )
 
+            }
+            .padding(.bottom, 8)
+            .overlay(
+                Divider()
+                    .offset(x: 0, y: 30)
+                    .padding([.leading, .trailing], -16)
+            )
+
+            ScrollView {
+
+                VStack (spacing: 16) {
+                    HStack(alignment: .center) {
+                        Spacer()
+                        HStack {
+                            Text("$")
+                                .font(.system(size: 30))
+                                .fontWeight(.heavy)
+                                .frame(alignment:.trailing)
+                            TextField(
+                                "0",
+                                value: $viewModel.amount,
+                                formatter: Formatters.currencyFormatterNoSymbol
+                            )
+                            .multilineTextAlignment(.leading)
+#if os(iOS)
+                            .fontWeight(.heavy)
+                            .font(.system(size: 60))
+                            .keyboardType(.decimalPad)
+#endif
+                            .focused($amountIsFocused)
+                            .onSubmit {
+                                amountIsFocused = false
+                                titleIsFocused = true
+                            }
+                        }
+                        Spacer()
+                    }
+
+#if os(iOS)
+                    TextField(
+                        "Desc",
+                        text: $viewModel.title,
+                        axis: .vertical
+                    )
+                    .multilineTextAlignment(.leading)
+                    .font(.system(size: 40))
+                    .focused($titleIsFocused)
+                    .onSubmit {
+                        titleIsFocused = false
+                    }
+#else
+                    TextField(
+                        "Desc",
+                        text: $viewModel.title
+                    )
+                    .multilineTextAlignment(.leading)
+                    .font(.system(size: 40))
+                    .focused($titleIsFocused)
+                    .onSubmit {
+                        titleIsFocused = false
+                    }
+#endif
+                    DatePicker(
+                        "fecha",
+                        selection: $viewModel.date,
+                        displayedComponents: [.date]
+                    )
+                    .labelsHidden()
+
+                    HStack(alignment: .center) {
+                        Text("Account")
+                            .bold()
+                            .frame(maxWidth: .infinity, alignment: .leading)
+
+                        Button(action: {
+                            viewModel.onAddAccount()
+                        }) {
+                            Image(systemName: "plus.circle")
+                                .font(.system(size: 30.0, weight: .semibold))
+                        }
+                    }
+                    TagCloudView(
+                        tags: viewModel.availableAccounts,
+                        currentSelection: {
+                            if let account = viewModel.account {
+                                return [account]
+                            } else {
+                                return nil
+                            }
+                        }(),
+                        onUpdate: viewModel.onUpdateAccount,
+                        onEditTag: viewModel.onEditAccount
+                    )
+
+                    HStack {
+                        Text("Category")
+                            .bold()
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        Button(action: {
+                            viewModel.onAddCategory()
+                        }) {
+                            Image(systemName: "plus.circle")
+                                .font(.system(size: 30.0, weight: .semibold))
+                        }
+                    }
+                    TagCloudView(
+                        tags: viewModel.availableCategories,
+                        currentSelection: {
+                            if let category = viewModel.category {
+                                return [category]
+                            } else {
+                                return nil
+                            }
+                        }(),
+                        onUpdate: viewModel.onUpdateCategory,
+                        onEditTag: viewModel.onEditCategory
+                    )
+
+                    HStack{
+                        Text("Tags")
+                            .bold()
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        Button(action: {
+                            viewModel.onAddTag()
+                        }) {
+                            Image(systemName: "plus.circle")
+                                .font(.system(size: 30.0, weight: .semibold))
+                        }
+                    }
+                    TagCloudView(
+                        tags: viewModel.availableTags,
+                        currentSelection: Array(viewModel.tags),
+                        onUpdate: viewModel.onUpdateTag,
+                        onEditTag: viewModel.onEditTag
+                    )
+
+                }
             }
 
         }
@@ -226,7 +277,7 @@ struct ExpenseDetailView: View {
                     accounts: viewModel.availableAccounts,
                     managedObjectContext: viewModel.managedObjectContext
                 ),
-                isPresented: $viewModel.isPresentingTag
+                isPresented: $viewModel.isPresentingAccount
             )
         }
         .ignoresSafeArea(edges: .bottom)

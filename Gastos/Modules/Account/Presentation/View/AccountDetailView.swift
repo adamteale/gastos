@@ -13,6 +13,7 @@ struct AccountDetailView: View {
     @ObservedObject private var viewModel: AccountDetailViewModel
     @Binding var isPresented: Bool
     @FocusState private var titleIsFocused: Bool
+    @State private var showDeleteConfirmation = false
 
     init(
         viewModel: AccountDetailViewModel,
@@ -36,6 +37,28 @@ struct AccountDetailView: View {
                     }
                     Spacer()
                         .frame(maxWidth:.infinity)
+                    if viewModel.account != nil {
+                        Button(action: {
+                            showDeleteConfirmation = true
+                        }
+                        ){
+                            Image(systemName: "trash")
+                                .tint(Color.red)
+                                .onTapGesture {
+                                    showDeleteConfirmation = true
+                                }
+                        }
+                        .confirmationDialog(
+                            "Really?",
+                            isPresented: $showDeleteConfirmation
+                        ) {
+                            Button("Si", role: .destructive) {
+                                viewModel.onDelete()
+                                showDeleteConfirmation = false
+                            }
+                            Button("No", role: .cancel) {}
+                        }
+                    }
                 }
                 Spacer()
                 TextField("Name", text: $viewModel.name).onSubmit {

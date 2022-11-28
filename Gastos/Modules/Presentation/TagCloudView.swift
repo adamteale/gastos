@@ -73,9 +73,6 @@ struct TagCloudView<T: TagCloudable>: View {
     }
 
     private func item(for tag: T) -> some View {
-        Button {
-            onUpdate(tag)
-        } label: {
             Text(tag.name ?? "-")
                 .font(.system(size: 20))
                 .bold()
@@ -93,10 +90,12 @@ struct TagCloudView<T: TagCloudable>: View {
                     Color("Success").opacity(0.5) : Color.clear
                 }
                 .cornerRadius(4)
+                .onTapGesture {
+                    onUpdate(tag)
+                }
                 .onLongPressGesture {
                     onEditTag(tag)
                 }
-        }
     }
 
     private func viewHeightReader(_ binding: Binding<CGFloat>) -> some View {

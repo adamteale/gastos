@@ -17,7 +17,7 @@ final class AccountDetailViewModel: ObservableObject {
     @Published var activeAccount: Account?
     @Published var isPresentingAccount = false
 
-    private var account: Account?
+    private(set) var account: Account?
     private(set) var managedObjectContext: NSManagedObjectContext
 
     private let fetchRequest: NSFetchRequest<Account> = NSFetchRequest(entityName: String(describing: Account.self))
@@ -77,5 +77,16 @@ final class AccountDetailViewModel: ObservableObject {
     func onEditItem(at index: Int) {
         activeAccount = accounts[index]
         isPresentingAccount = true
+    }
+
+    func onDelete() {
+        if let account = account {
+            [account].forEach(managedObjectContext.delete)
+            do {
+                try managedObjectContext.save()
+            } catch {
+                print(error)
+            }
+        }
     }
 }

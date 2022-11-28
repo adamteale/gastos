@@ -81,7 +81,7 @@ final class ExpenseDetailViewModel: ObservableObject {
             expense = Expense(context: managedObjectContext)
         }
         expense?.title = title
-        expense?.amount = amount ?? 0
+        expense?.amount = amount
         expense?.category = category ?? availableCategories.first
         expense?.tags = NSSet(set: tags)
         expense?.date = date
@@ -126,5 +126,16 @@ final class ExpenseDetailViewModel: ObservableObject {
     func onEditAccount(account: Account) {
         activeAccount = account
         isPresentingAccount = true
+    }
+
+    func onDelete() {
+        if let expense = expense {
+            [expense].forEach(managedObjectContext.delete)
+            do {
+                try managedObjectContext.save()
+            } catch {
+                print(error)
+            }
+        }
     }
 }

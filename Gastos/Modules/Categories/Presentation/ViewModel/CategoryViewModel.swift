@@ -17,7 +17,7 @@ final class CategoryDetailViewModel: ObservableObject {
     @Published var activeCategory: Category?
     @Published var isPresentingCategory = false
 
-    private var category: Category?
+    private(set) var category: Category?
     private(set) var managedObjectContext: NSManagedObjectContext
 
     private let fetchRequest: NSFetchRequest<Category> = NSFetchRequest(entityName: String(describing: Category.self))
@@ -77,5 +77,16 @@ final class CategoryDetailViewModel: ObservableObject {
     func onEditItem(at index: Int) {
         activeCategory = categories[index]
         isPresentingCategory = true
+    }
+
+    func onDelete() {
+        if let category = category {
+            [category].forEach(managedObjectContext.delete)
+            do {
+                try managedObjectContext.save()
+            } catch {
+                print(error)
+            }
+        }
     }
 }

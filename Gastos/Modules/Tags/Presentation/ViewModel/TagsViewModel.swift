@@ -17,7 +17,7 @@ final class TagDetailViewModel: ObservableObject {
     @Published var activeTag: Tag?
     @Published var isPresentingTag = false
 
-    private var tag: Tag?
+    private(set) var tag: Tag?
     private(set) var managedObjectContext: NSManagedObjectContext
 
     private let fetchRequest: NSFetchRequest<Tag> = NSFetchRequest(entityName: String(describing: Tag.self))
@@ -77,5 +77,17 @@ final class TagDetailViewModel: ObservableObject {
     func onEditItem(at index: Int) {
         activeTag = tags[index]
         isPresentingTag = true
+
+    }
+
+    func onDelete() {
+        if let tag = tag {
+            [tag].forEach(managedObjectContext.delete)
+            do {
+                try managedObjectContext.save()
+            } catch {
+                print(error)
+            }
+        }
     }
 }

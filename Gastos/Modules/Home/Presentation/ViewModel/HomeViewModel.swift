@@ -192,8 +192,9 @@ final class HomeViewModel: ObservableObject {
 
             if !initialLoadComplete {
                 initialLoadComplete = true
-                delete()
-                readJson()
+
+//                delete()
+//                readJson()
             }
 
 
