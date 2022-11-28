@@ -56,18 +56,16 @@ struct HomeView: View {
 
                 ZStack(alignment: .bottom) {
                     List {
-                        ForEach(
-                            Array(viewModel.expensesSections).sorted(by: { $0.key > $1.key }), id: \.key
-                        ) { key, value in
+                        ForEach(viewModel.expensesSections, id: \.dateFormatted) { section in
                             ExpensesSection(
-                                title: key,
-                                expenses: value,
+                                title: section.dateFormatted,
+                                expenses: section.expenses,
                                 onEditItem: { index in
-                                    viewModel.onEditItem(objectID: value[index].objectID)
+                                    viewModel.onEditItem(objectID: section.expenses[index].objectID)
                                 },
                                 deleteItems: { indexSet in
                                     if let first = indexSet.first {
-                                        viewModel.deleteItems(objectID: value[first].objectID)
+                                        viewModel.deleteItems(objectID: section.expenses[first].objectID)
                                     }
                                 }
                             )
@@ -119,6 +117,9 @@ struct HomeView: View {
                         }
                     }
                 }
+            }
+            .refreshable {
+                viewModel.onRefresh()
             }
         }
         .onAppear{ viewModel.onRefresh() }
@@ -327,11 +328,11 @@ struct MonthPickerComponent: View {
                             } label: {
                                 Text(item)
                                     .foregroundColor(
-                                        item == currentMonthFormatted ? .white : .black
+                                        item == currentMonthFormatted ? Color("TextActive") : Color("Text")
                                     )
                                     .padding(8)
                                     .background(content: {
-                                        item == currentMonthFormatted ? Color.blue : Color.clear
+                                        item == currentMonthFormatted ? Color("Neutral") : Color.clear
                                     })
                                     .cornerRadius(4)
                                     .id(item)
@@ -363,7 +364,7 @@ struct TagsComponent: View {
                     .fontWeight(.medium)
                     .padding(4)
                     .background {
-                        Color.green.opacity(0.3)
+                        Color("Success").opacity(0.3)
                     }
                     .cornerRadius(4)
             }

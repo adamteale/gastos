@@ -30,8 +30,9 @@ struct TagDetailView: View {
                     Button(action: {
                         isPresented = false
                     }) {
-                        Label("", systemImage: "arrow.backward")
-                            .font(.system(size: 20))
+                        Image(systemName: "xmark.circle.fill")
+                            .tint(Color("Text"))
+                            .font(.system(size: 20.0, weight: .semibold))
                     }
                     Spacer()
                         .frame(maxWidth:.infinity)

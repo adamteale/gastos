@@ -10,9 +10,15 @@ import CloudKit
 import CoreData
 import Combine
 
+struct ExpensesSectionViewArgs {
+    let date: Date
+    let dateFormatted: String
+    var expenses: [Expense]
+}
+
 final class HomeViewModel: ObservableObject {
 
-    @Published var expensesSections = [String: [Expense]]()
+    @Published var expensesSections = [ExpensesSectionViewArgs]()
     @Published var activeExpense: Expense?
     @Published var activeCategory: Category?
     @Published var activeTag: Tag?
@@ -66,10 +72,7 @@ final class HomeViewModel: ObservableObject {
 
     func onRefresh() {
         do {
-            expensesRaw = try managedObjectContext.fetch(expensesFetchRequest).sorted(by: { lhs, rhs in
-                lhs.date ?? Date() < rhs.date ?? Date()
-            })
-
+            expensesRaw = try managedObjectContext.fetch(expensesFetchRequest)
             categories = try managedObjectContext.fetch(categoriesFetchRequest)
             availableTags = try managedObjectContext.fetch(tagsFetchRequest)
             accounts = try managedObjectContext.fetch(accountsFetchRequest)
@@ -127,26 +130,43 @@ final class HomeViewModel: ObservableObject {
 
         let k = expensesRaw.filter { expense in
             calendar.isDate(expense.date ?? Date(), equalTo: selectedDate, toGranularity: .month)
-        }.reduce(into: ([String: [Expense]](), 0.0), { partialResult, expense in
+        }.reduce(into: ([String: ExpensesSectionViewArgs](), 0.0), { partialResult, expense in
 
-            if let date = Formatters.onlyDate.string(for: expense.date ?? Date()) {
-                if partialResult.0[date] == nil {
-                    partialResult.0[date] = []
+            if let dateFormatted = Formatters.dateSectionFormatting.string(for: expense.date ?? Date()) {
+
+                var dateComponents = calendar.dateComponents([.month, .day, .year], from: expense.date ?? Date())
+                let keyDate = calendar.date(from: dateComponents) ?? Date()
+
+                if partialResult.0[dateFormatted] == nil {
+                    partialResult.0[dateFormatted] = ExpensesSectionViewArgs(
+                        date: keyDate,
+                        dateFormatted: {
+                            if let expenseDate = expense.date {
+                                return Formatters.onlyDate.string(for: expenseDate) ?? dateFormatted
+                            } else {
+                                return dateFormatted
+                            }
+                        }(),
+                        expenses: []
+                    )
                 }
 
                 if searchTerm.isEmpty {
-                    partialResult.0[date]?.append(expense)
+                    partialResult.0[dateFormatted]?.expenses.append(expense)
                     partialResult.1 += expense.amount
                 } else if (expense.title ?? "" ).contains(searchTerm){
-                    partialResult.0[date]?.append(expense)
+                    partialResult.0[dateFormatted]?.expenses.append(expense)
                     partialResult.1 += expense.amount
                 }
             }
 
         })
+        expensesSections = Array(k.0.map({ (key: String, value: ExpensesSectionViewArgs) in
+            value
+        })).sorted { $0.date > $1.date }
 
-        expensesSections = k.0
         totalAmount = k.1
+
     }
 
     func onClearSearchTerm() {

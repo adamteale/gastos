@@ -34,6 +34,12 @@ struct Formatters {
         return formatter
     }()
 
+    static let dateSectionFormatting: Formatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyyMMdd"
+        return formatter
+    }()
+
     static let onlyMonth: Formatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "LLL"

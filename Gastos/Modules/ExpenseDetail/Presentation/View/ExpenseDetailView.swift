@@ -43,7 +43,7 @@ struct ExpenseDetailView: View {
                     }
                 }) {
                     Image(systemName: "xmark.circle.fill")
-                        .tint(.black)
+                        .tint(Color("Text"))
                         .font(.system(size: 20.0, weight: .semibold))
                 }
                 Spacer()
