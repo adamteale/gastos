@@ -16,6 +16,22 @@ struct ExpensesSectionViewArgs {
     var expenses: [Expense]
 }
 
+struct TDumpEntry: Decodable{
+    let date: [String]
+    let account: [String]
+    let category: [String]
+    let tags: [String]
+    let ammount: [String]
+    let currency: [String]
+    let ammountOriginal: [String]
+    let currencyOriginal: [String]
+    let description: [String]
+}
+
+struct TDump: Decodable{
+    let items: [TDumpEntry]
+}
+
 final class HomeViewModel: ObservableObject {
 
     @Published var expensesSections = [ExpensesSectionViewArgs]()
@@ -58,6 +74,7 @@ final class HomeViewModel: ObservableObject {
         entityName: String(describing: Account.self)
     )
 
+    private var initialLoadComplete = false
     
     init(managedObjectContext: NSManagedObjectContext) {
         self.managedObjectContext = managedObjectContext
@@ -68,18 +85,122 @@ final class HomeViewModel: ObservableObject {
             .sink(receiveValue: { [weak self] notification in
                 self?.onRefresh()
             }).store(in: cancelBag)
+
+    }
+
+    func delete() {
+        var stuff = [String: Category]()
+        categories.forEach {
+            guard let name = $0.name else { return }
+            if stuff[name] == nil {
+                stuff[name] = $0
+            } else {
+                [$0].forEach(managedObjectContext.delete)
+            }
+        }
+
+        var tags = [String: Tag]()
+        availableTags.forEach {
+            [$0].forEach(managedObjectContext.delete)
+            guard let name = $0.name else { return }
+            if tags[name] == nil {
+//                print(name, $0.name)
+                tags[name] = $0
+            } else {
+                [$0].forEach(managedObjectContext.delete)
+            }
+        }
+
+        do {
+            try managedObjectContext.save()
+        } catch {
+            // Replace this implementation with code to handle the error appropriately.
+            // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+            let nsError = error as NSError
+            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+        }
+
+    }
+
+    func readJson() {
+        let path = Bundle.main.path(forResource: "toshl", ofType: "json") // file path for file "data.txt"
+
+        let string = try? String(contentsOfFile: path!, encoding: String.Encoding.utf8)
+        guard let data = string?.data(using: .utf8) else { return }
+        do {
+            let p = try JSONDecoder().decode(TDump.self, from: data)
+
+            for (index, item) in p.items.enumerated() {
+                if let name = item.category.first {
+
+                    if categories.first(where: { $0.name == name }) == nil {
+                        do {
+                            let newItem = Category(context: managedObjectContext)
+                            newItem.name = name
+                            try managedObjectContext.save()
+//                            categories = try managedObjectContext.fetch(categoriesFetchRequest)
+                        } catch {
+                            let nsError = error as NSError
+                            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+                        }
+                    }
+//                    else {
+//                        print("duplicate category", name, index)
+//                    }
+
+                }
+
+                for (index, tag) in item.tags.enumerated() {
+                    if tag != "\n" && !tag.isEmpty && !(tag == " ") && !(tag.count == 0) {
+                        if availableTags.first(where: { $0.name == tag }) == nil {
+                            print("tag:", tag, tag)
+                            do {
+                                let newItem = Tag(context: managedObjectContext)
+                                newItem.name = tag.replacingOccurrences(of: "\n", with: "")
+                                try managedObjectContext.save()
+                                //                                availableTags = try managedObjectContext.fetch(tagsFetchRequest)
+                            } catch {
+                                let nsError = error as NSError
+                                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+                            }
+                        }
+//                        else {
+//                            print("duplicate tag", tag, index)
+//                        }
+
+                    }
+
+                }
+            }
+
+        } catch {
+            print(error)
+        }
+
     }
 
     func onRefresh() {
         do {
             expensesRaw = try managedObjectContext.fetch(expensesFetchRequest)
             categories = try managedObjectContext.fetch(categoriesFetchRequest)
+                .sorted { $0.name?.lowercased() ?? "" < $1.name?.lowercased() ?? "" }
             availableTags = try managedObjectContext.fetch(tagsFetchRequest)
+                .sorted { $0.name?.lowercased() ?? "" < $1.name?.lowercased() ?? "" }
             accounts = try managedObjectContext.fetch(accountsFetchRequest)
+                .sorted { $0.name?.lowercased() ?? "" < $1.name?.lowercased() ?? "" }
             onUpdate(searchTerm: "")
+
+            if !initialLoadComplete {
+                initialLoadComplete = true
+                delete()
+                readJson()
+            }
+
+
         } catch {
             print("error:", error)
         }
+
     }
 
     func onAddExpense() {

@@ -15,11 +15,18 @@ struct TagCloudView<T: TagCloudable>: View {
     private var tags: [T]
     private var currentSelection: [T]?
     private var onUpdate: (T) -> Void
+    private var onEditTag: (T) -> Void
 
-    init(tags: [T], currentSelection: [T]?, onUpdate: @escaping (T) -> Void) {
+    init(
+        tags: [T],
+        currentSelection: [T]?,
+        onUpdate: @escaping (T) -> Void,
+        onEditTag: @escaping (T) -> Void
+    ) {
         self.tags = tags
         self.currentSelection = currentSelection
         self.onUpdate = onUpdate
+        self.onEditTag = onEditTag
     }
 
     var body: some View {
@@ -86,6 +93,9 @@ struct TagCloudView<T: TagCloudable>: View {
                     Color("Success").opacity(0.5) : Color.clear
                 }
                 .cornerRadius(4)
+                .onLongPressGesture {
+                    onEditTag(tag)
+                }
         }
     }
 

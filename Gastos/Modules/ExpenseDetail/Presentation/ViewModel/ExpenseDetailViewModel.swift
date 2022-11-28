@@ -112,4 +112,19 @@ final class ExpenseDetailViewModel: ObservableObject {
         activeAccount = nil
         isPresentingAccount = true
     }
+
+    func onEditCategory(category: Category) {
+        activeCategory = category
+        isPresentingCategory = true
+    }
+
+    func onEditTag(tag: Tag) {
+        activeTag = tag
+        isPresentingTag = true
+    }
+
+    func onEditAccount(account: Account) {
+        activeAccount = account
+        isPresentingAccount = true
+    }
 }

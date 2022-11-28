@@ -71,7 +71,9 @@ struct HomeView: View {
                             )
                         }
                     }
+#if os(iOS)
                     .listStyle(.grouped)
+#endif
                 }
                 .safeAreaInset(edge: .bottom, content: {
                     HStack {
@@ -194,7 +196,9 @@ struct ExpensesSection: View {
                         Text(expense.title ?? "")
                             .multilineTextAlignment(.leading)
                             .font(.system(size: 18))
+#if os(iOS)
                             .fontWeight(.bold)
+#endif
                         HStack(alignment: .center, spacing: 0) {
                             Text("$")
                                 .font(.system(size: 20))

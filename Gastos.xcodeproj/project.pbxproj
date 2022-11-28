@@ -13,6 +13,11 @@
 		0306B79029341DFB00B2FB3A /* Tag+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0306B78F29341DFB00B2FB3A /* Tag+Extension.swift */; };
 		0306B79129341DFD00B2FB3A /* Tag+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0306B78F29341DFB00B2FB3A /* Tag+Extension.swift */; };
 		0306B79329341E3500B2FB3A /* TagCloudable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0306B79229341E3500B2FB3A /* TagCloudable.swift */; };
+		0306B7952934517E00B2FB3A /* toshl.json in Resources */ = {isa = PBXBuildFile; fileRef = 0306B7942934517E00B2FB3A /* toshl.json */; };
+		0306B7962934E22A00B2FB3A /* TagCloudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0306B7892933E96B00B2FB3A /* TagCloudView.swift */; };
+		0306B7972934EC6800B2FB3A /* TagCloudable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0306B79229341E3500B2FB3A /* TagCloudable.swift */; };
+		0306B7982934EC7700B2FB3A /* AccountDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0306B7862932EB0500B2FB3A /* AccountDetailView.swift */; };
+		0306B7992934EC7900B2FB3A /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0306B7842932EB0500B2FB3A /* AccountViewModel.swift */; };
 		030B1D2529327DDF00495F9E /* Gastos.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0372DC432930F24400F4C1F1 /* Gastos.xcdatamodeld */; };
 		030B1D2629327DDF00495F9E /* CategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0372DC7E29314E3C00F4C1F1 /* CategoryViewModel.swift */; };
 		030B1D2729327DDF00495F9E /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0372DC842931721E00F4C1F1 /* Formatters.swift */; };
@@ -52,6 +57,7 @@
 		0306B7892933E96B00B2FB3A /* TagCloudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCloudView.swift; sourceTree = "<group>"; };
 		0306B78F29341DFB00B2FB3A /* Tag+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tag+Extension.swift"; sourceTree = "<group>"; };
 		0306B79229341E3500B2FB3A /* TagCloudable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCloudable.swift; sourceTree = "<group>"; };
+		0306B7942934517E00B2FB3A /* toshl.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = toshl.json; sourceTree = "<group>"; };
 		030B1D3A29327DDF00495F9E /* Gastos MacOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Gastos MacOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0372DC3C2930F24400F4C1F1 /* Gastos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gastos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0372DC3F2930F24400F4C1F1 /* GastosApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GastosApp.swift; sourceTree = "<group>"; };
@@ -154,6 +160,7 @@
 		0372DC3E2930F24400F4C1F1 /* Gastos */ = {
 			isa = PBXGroup;
 			children = (
+				0306B7942934517E00B2FB3A /* toshl.json */,
 				0372DC5F2930F67900F4C1F1 /* Info.plist */,
 				0372DC542930F24E00F4C1F1 /* Modules */,
 				0372DC3F2930F24400F4C1F1 /* GastosApp.swift */,
@@ -424,6 +431,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0306B7952934517E00B2FB3A /* toshl.json in Resources */,
 				0372DC872932604700F4C1F1 /* Launch Screen.storyboard in Resources */,
 				0372DC4D2930F24500F4C1F1 /* Preview Assets.xcassets in Resources */,
 				0372DC492930F24500F4C1F1 /* Assets.xcassets in Resources */,
@@ -440,6 +448,9 @@
 				030B1D2529327DDF00495F9E /* Gastos.xcdatamodeld in Sources */,
 				030B1D2629327DDF00495F9E /* CategoryViewModel.swift in Sources */,
 				030B1D2729327DDF00495F9E /* Formatters.swift in Sources */,
+				0306B7962934E22A00B2FB3A /* TagCloudView.swift in Sources */,
+				0306B7992934EC7900B2FB3A /* AccountViewModel.swift in Sources */,
+				0306B7972934EC6800B2FB3A /* TagCloudable.swift in Sources */,
 				030B1D2829327DDF00495F9E /* CategoryDetailView.swift in Sources */,
 				030B1D2929327DDF00495F9E /* TagsViewModel.swift in Sources */,
 				030B1D2A29327DDF00495F9E /* ExpenseDetailView.swift in Sources */,
@@ -450,6 +461,7 @@
 				030B1D2E29327DDF00495F9E /* HomeView.swift in Sources */,
 				030B1D2F29327DDF00495F9E /* ExpenseDetailViewModel.swift in Sources */,
 				030B1D3029327DDF00495F9E /* Persistence.swift in Sources */,
+				0306B7982934EC7700B2FB3A /* AccountDetailView.swift in Sources */,
 				030B1D3129327DDF00495F9E /* TagDetailView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -496,7 +508,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Gastos copy3-Info.plist";
+				INFOPLIST_FILE = Gastos/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Gastos;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
@@ -541,7 +553,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Gastos copy3-Info.plist";
+				INFOPLIST_FILE = Gastos/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Gastos;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;

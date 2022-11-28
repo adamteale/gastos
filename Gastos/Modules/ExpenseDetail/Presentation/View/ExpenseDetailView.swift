@@ -79,6 +79,7 @@ struct ExpenseDetailView: View {
                     Spacer()
                 }
 
+#if os(iOS)
                 TextField(
                     "Desc",
                     text: $viewModel.title,
@@ -86,14 +87,22 @@ struct ExpenseDetailView: View {
                 )
                 .multilineTextAlignment(.leading)
                 .font(.system(size: 40))
-#if os(iOS)
-                .fontWeight(.semibold)
-#endif
                 .focused($titleIsFocused)
                 .onSubmit {
                     titleIsFocused = false
                 }
-
+#else
+                TextField(
+                    "Desc",
+                    text: $viewModel.title
+                )
+                .multilineTextAlignment(.leading)
+                .font(.system(size: 40))
+                .focused($titleIsFocused)
+                .onSubmit {
+                    titleIsFocused = false
+                }
+#endif
                 DatePicker(
                     "fecha",
                     selection: $viewModel.date,
@@ -122,7 +131,8 @@ struct ExpenseDetailView: View {
                             return nil
                         }
                     }(),
-                    onUpdate: viewModel.onUpdateAccount
+                    onUpdate: viewModel.onUpdateAccount,
+                    onEditTag: viewModel.onEditAccount
                 )
 
                 HStack {
@@ -145,7 +155,8 @@ struct ExpenseDetailView: View {
                             return nil
                         }
                     }(),
-                    onUpdate: viewModel.onUpdateCategory
+                    onUpdate: viewModel.onUpdateCategory,
+                    onEditTag: viewModel.onEditCategory
                 )
 
                 HStack{
@@ -162,9 +173,9 @@ struct ExpenseDetailView: View {
                 TagCloudView(
                     tags: viewModel.availableTags,
                     currentSelection: Array(viewModel.tags),
-                    onUpdate: viewModel.onUpdateTag
+                    onUpdate: viewModel.onUpdateTag,
+                    onEditTag: viewModel.onEditTag
                 )
-
 
             }
 
