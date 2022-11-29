@@ -33,10 +33,14 @@ struct TDump: Decodable{
     let items: [TDumpEntry]
 }
 
+final class ActiceExpense: ObservableObject {
+    @Published var activeExpense: Expense?
+}
+
 final class HomeViewModel: ObservableObject {
 
     @Published var expensesSections = [ExpensesSectionViewArgs]()
-    @Published var activeExpense: Expense?
+    @Published var activeExpense: ActiceExpense
     @Published var activeCategory: Category?
     @Published var activeTag: Tag?
     @Published var activeAccount: Account?
@@ -79,7 +83,7 @@ final class HomeViewModel: ObservableObject {
     
     init(managedObjectContext: NSManagedObjectContext) {
         self.managedObjectContext = managedObjectContext
-
+        self.activeExpense = ActiceExpense()
         NotificationCenter.default
             .publisher(for: .NSManagedObjectContextDidSave,
                        object: managedObjectContext)
@@ -206,7 +210,7 @@ final class HomeViewModel: ObservableObject {
     }
 
     func onAddExpense() {
-        activeExpense = nil
+        activeExpense.activeExpense = nil
         isPresentingExpense = true
     }
 
@@ -226,12 +230,12 @@ final class HomeViewModel: ObservableObject {
     }
 
     func onEditItem(objectID: NSManagedObjectID) {
-        activeExpense = expensesRaw.first(where: {$0.objectID == objectID})
+        activeExpense.activeExpense = expensesRaw.first(where: {$0.objectID == objectID})
         isPresentingExpense = true
     }
 
     func onEditItem(_ expense: Expense) {
-        activeExpense = expense
+        activeExpense.activeExpense = expense
         isPresentingExpense = true
     }
 

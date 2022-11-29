@@ -9,51 +9,36 @@ import Foundation
 import SwiftUI
 
 struct ExpenseDetailView: View {
-
+    
     @ObservedObject private var viewModel: ExpenseDetailViewModel
-    @Binding var isPresented: Bool
+    
     @State private var selectedCategory: Int
     @State private var selectedAccount: Int
-
+    
     @FocusState private var titleIsFocused: Bool
     @FocusState private var amountIsFocused: Bool
     @State private var showDeleteConfirmation = false
-
+    
     init(
-        viewModel: ExpenseDetailViewModel,
-        isPresented: Binding<Bool>
+        viewModel: ExpenseDetailViewModel
     ) {
         self.viewModel = viewModel
-        self._isPresented = isPresented // "_" how dumb!
         selectedCategory = 0
         selectedAccount = 0
     }
-
+    
     var body: some View {
-
+        
         VStack {
-
+            
             HStack(alignment: .center) {
-                Button(action: {
-                    if viewModel.expense == nil {
-                        isPresented = false
-                    } else {
-                        viewModel.onSave {
-                            isPresented = false
-                        }
-                    }
-                }) {
-                    Image(systemName: "xmark.circle.fill")
-                        .tint(Color("Text"))
-                        .font(.system(size: 20.0, weight: .semibold))
-                }
                 Spacer()
                     .frame(maxWidth:.infinity)
-
+                
                 Text("Save")
                     .onTapGesture {
                         viewModel.onSave {
-                            isPresented = false
+                            
                         }
                     }
 #if os(iOS)
@@ -66,33 +51,31 @@ struct ExpenseDetailView: View {
                     .foregroundColor(
                         Color("TextActive"))
                     .cornerRadius(4)
-
+                
                 Spacer()
                     .frame(maxWidth:.infinity)
-
+                
                 if viewModel.expense != nil {
-                    Button(action: {
-                        showDeleteConfirmation = true
-                    }
-                    ){
-                        Image(systemName: "trash")
-                            .tint(Color.red)
-                            .onTapGesture {
-                                showDeleteConfirmation = true
-                            }
-                    }
-                    .confirmationDialog(
-                        "Really?",
-                        isPresented: $showDeleteConfirmation
-                    ) {
-                        Button("Si", role: .destructive) {
-                            viewModel.onDelete()
-                            showDeleteConfirmation = false
+                    Image(systemName: "trash")
+                        .tint(Color.red)
+                        .onTapGesture {
+                            showDeleteConfirmation = true
                         }
-                        Button("No", role: .cancel) {}
-                    }
+                        .onTapGesture {
+                            showDeleteConfirmation = true
+                        }
+                        .confirmationDialog(
+                            "Really?",
+                            isPresented: $showDeleteConfirmation
+                        ) {
+                            Button("Si", role: .destructive) {
+                                viewModel.onDelete()
+                                showDeleteConfirmation = false
+                            }
+                            Button("No", role: .cancel) {}
+                        }
                 }
-
+                
             }
             .padding(.bottom, 8)
             .overlay(
@@ -100,9 +83,9 @@ struct ExpenseDetailView: View {
                     .offset(x: 0, y: 30)
                     .padding([.leading, .trailing], -16)
             )
-
+            
             ScrollView {
-
+                
                 VStack (spacing: 16) {
                     HStack(alignment: .center) {
                         Spacer()
@@ -130,7 +113,7 @@ struct ExpenseDetailView: View {
                         }
                         Spacer()
                     }
-
+                    
 #if os(iOS)
                     TextField(
                         "Desc",
@@ -161,18 +144,17 @@ struct ExpenseDetailView: View {
                         displayedComponents: [.date]
                     )
                     .labelsHidden()
-
+                    
                     HStack(alignment: .center) {
                         Text("Account")
                             .bold()
                             .frame(maxWidth: .infinity, alignment: .leading)
-
-                        Button(action: {
-                            viewModel.onAddAccount()
-                        }) {
+                        
                             Image(systemName: "plus.circle")
                                 .font(.system(size: 30.0, weight: .semibold))
-                        }
+                                .onTapGesture {
+                                    viewModel.onAddAccount()
+                                }
                     }
                     TagCloudView(
                         tags: viewModel.availableAccounts,
@@ -186,17 +168,16 @@ struct ExpenseDetailView: View {
                         onUpdate: viewModel.onUpdateAccount,
                         onEditTag: viewModel.onEditAccount
                     )
-
+                    
                     HStack {
                         Text("Category")
                             .bold()
                             .frame(maxWidth: .infinity, alignment: .leading)
-                        Button(action: {
-                            viewModel.onAddCategory()
-                        }) {
                             Image(systemName: "plus.circle")
                                 .font(.system(size: 30.0, weight: .semibold))
-                        }
+                                .onTapGesture {
+                                    viewModel.onAddCategory()
+                                }
                     }
                     TagCloudView(
                         tags: viewModel.availableCategories,
@@ -210,17 +191,16 @@ struct ExpenseDetailView: View {
                         onUpdate: viewModel.onUpdateCategory,
                         onEditTag: viewModel.onEditCategory
                     )
-
+                    
                     HStack{
                         Text("Tags")
                             .bold()
                             .frame(maxWidth: .infinity, alignment: .leading)
-                        Button(action: {
-                            viewModel.onAddTag()
-                        }) {
                             Image(systemName: "plus.circle")
                                 .font(.system(size: 30.0, weight: .semibold))
-                        }
+                                .onTapGesture {
+                                    viewModel.onAddTag()
+                                }
                     }
                     TagCloudView(
                         tags: viewModel.availableTags,
@@ -228,10 +208,10 @@ struct ExpenseDetailView: View {
                         onUpdate: viewModel.onUpdateTag,
                         onEditTag: viewModel.onEditTag
                     )
-
+                    
                 }
             }
-
+            
         }
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
@@ -284,6 +264,6 @@ struct ExpenseDetailView: View {
         }
         .ignoresSafeArea(edges: .bottom)
     }
-
+    
 }
 

@@ -14,93 +14,92 @@ struct HomeView: View {
     @State var searchOn: Bool = false
     @FocusState private var searchIsFocused: Bool
 
-
     var body: some View {
         Group {
-            VStack {
-                if searchOn {
-                    HStack {
-                        TextField(
-                            "Search", text: $viewModel.searchTerm
-                        )
-                        .focused($searchIsFocused)
-                        .onChange(of: viewModel.searchTerm) { newValue in
-                            viewModel.onUpdate(searchTerm: newValue)
+            NavigationView {
+                ZStack(alignment: .bottom) {
+                    VStack {
+                        if searchOn {
+                            HStack {
+                                TextField(
+                                    "Search", text: $viewModel.searchTerm
+                                )
+                                .focused($searchIsFocused)
+                                .onChange(of: viewModel.searchTerm) { newValue in
+                                    viewModel.onUpdate(searchTerm: newValue)
+                                }
+                                if !viewModel.searchTerm.isEmpty {
+                                    Image(systemName: "xmark.circle")
+                                        .font(.system(size: 20))
+                                        .onTapGesture {
+                                            viewModel.onClearSearchTerm()
+                                        }
+                                }
+                                Spacer()
+                            }
+                            .padding()
                         }
-                        if !viewModel.searchTerm.isEmpty {
-                            Button(action: viewModel.onClearSearchTerm) {
-                                Label("", systemImage: "xmark.circle")
-                                    .font(.system(size: 20))
+
+                        MonthPickerComponent(
+                            viewModel: MonthPickerComponentViewModel(
+                                selectedDate: viewModel.selectedDate,
+                                onChangeCurrentDate: viewModel.onChangeCurrentDate
+                            )
+                        )
+                        .frame(maxWidth: .infinity)
+
+                        HStack(alignment: .center, spacing: 2) {
+                            Text("$")
+                                .font(.system(size: 30))
+                                .fontWeight(.black)
+                            Text(Formatters.currencyFormatterNoSymbol.string(for: viewModel.totalAmount) ?? "" )
+                                .font(.system(size: 40))
+                                .fontWeight(.black)
+                        }
+                        .padding(4)
+
+                        List {
+                            ForEach(viewModel.expensesSections, id: \.dateFormatted) { section in
+                                ExpensesSection(
+                                    title: section.dateFormatted,
+                                    expenses: section.expenses,
+                                    onEditItem: { index in
+                                        viewModel.onEditItem(objectID: section.expenses[index].objectID)
+                                    },
+                                    deleteItems: { indexSet in
+                                        if let first = indexSet.first {
+                                            viewModel.deleteItems(objectID: section.expenses[first].objectID)
+                                        }
+                                    },
+                                    categories: viewModel.categories,
+                                    availableTags: viewModel.availableTags,
+                                    availableAccounts: viewModel.accounts,
+                                    managedObjectContext: viewModel.managedObjectContext,
+                                    activeExpense: viewModel.activeExpense
+                                )
                             }
                         }
-                        Spacer()
-                    }
-                    .padding()
-                }
-
-                MonthPickerComponent(
-                    viewModel: MonthPickerComponentViewModel(
-                        selectedDate: viewModel.selectedDate,
-                        onChangeCurrentDate: viewModel.onChangeCurrentDate
-                    )
-                )
-
-                HStack(alignment: .center, spacing: 2) {
-                    Text("$")
-                        .font(.system(size: 30))
-                        .fontWeight(.black)
-                    Text(Formatters.currencyFormatterNoSymbol.string(for: viewModel.totalAmount) ?? "" )
-                        .font(.system(size: 40))
-                        .fontWeight(.black)
-                }
-                .padding(4)
-
-                NavigationView {
-
-                    List {
-                        ForEach(viewModel.expensesSections, id: \.dateFormatted) { section in
-                            ExpensesSection(
-                                title: section.dateFormatted,
-                                expenses: section.expenses,
-                                onEditItem: { index in
-                                    viewModel.onEditItem(objectID: section.expenses[index].objectID)
-                                },
-                                deleteItems: { indexSet in
-                                    if let first = indexSet.first {
-                                        viewModel.deleteItems(objectID: section.expenses[first].objectID)
-                                    }
-                                },
-                                categories: viewModel.categories,
-                                availableTags: viewModel.availableTags,
-                                availableAccounts: viewModel.accounts,
-                                managedObjectContext: viewModel.managedObjectContext,
-                                isPresented: false
-                            )
-
-                        }
-                    }
 #if os(iOS)
-                    .listStyle(.grouped)
+                        .listStyle(.grouped)
 #endif
-                }
-
-                .safeAreaInset(edge: .bottom, content: {
+                    }
                     HStack {
                         Spacer()
-                        Button(action: viewModel.onAddExpense) {
-                            Image(systemName: "plus")
-                                .resizable()
-                                .frame(width: 40, height: 40)
-                                .tint(Color.white)
+                        Image(systemName: "plus")
+                            .resizable()
+                            .frame(width: 40, height: 40)
+                            .tint(Color.white)
                             .padding()
                             .background {
                                 Color.blue
                             }
                             .cornerRadius(40)
-                        }
+                            .onTapGesture {
+                                viewModel.onAddExpense()
+                            }
                     }
                     .padding()
-                })
+                }
                 .toolbar {
 //#if os(iOS)
 //                    ToolbarItem(placement: .navigationBarLeading) {
@@ -134,18 +133,19 @@ struct HomeView: View {
             }
         }
         .onAppear{ viewModel.onRefresh() }
-//        .sheet(isPresented: $viewModel.isPresentingExpense) {
-//            ExpenseDetailView(
-//                viewModel: ExpenseDetailViewModel(
-//                    expense: viewModel.activeExpense,
-//                    categories: viewModel.categories,
-//                    availableTags: viewModel.availableTags,
-//                    availableAccounts: viewModel.accounts,
-//                    managedObjectContext: viewModel.managedObjectContext
-//                ),
-//                isPresented: $viewModel.isPresentingExpense
-//            )
-//        }
+
+        //        .sheet(isPresented: $viewModel.isPresentingExpense) {
+        //            ExpenseDetailView(
+        //                viewModel: ExpenseDetailViewModel(
+        //                    expense: viewModel.activeExpense,
+        //                    categories: viewModel.categories,
+        //                    availableTags: viewModel.availableTags,
+        //                    availableAccounts: viewModel.accounts,
+        //                    managedObjectContext: viewModel.managedObjectContext
+        //                ),
+        //                isPresented: $viewModel.isPresentingExpense
+        //            )
+        //        }
         .sheet(isPresented: $viewModel.isPresentingCategory) {
             CategoryDetailView(
                 viewModel: CategoryDetailViewModel(
@@ -196,15 +196,18 @@ struct ExpensesSection: View {
     var availableAccounts: [Account]
     var managedObjectContext: NSManagedObjectContext
 
+    @ObservedObject var activeExpense: ActiceExpense
     @State var isPresented = false
 
     var body: some View {
+
         Section(header: Text(title)) {
+
             ForEach(
-                Array(
-                    expenses.enumerated()),
+                Array(expenses.enumerated()),
                 id: \.offset
             ) { index, expense in
+
                 NavigationLink(
                     destination: ExpenseDetailView(
                         viewModel: ExpenseDetailViewModel(
@@ -213,8 +216,7 @@ struct ExpensesSection: View {
                             availableTags: availableTags,
                             availableAccounts: availableAccounts,
                             managedObjectContext: managedObjectContext
-                        ),
-                        isPresented: $isPresented
+                        )
                     ),
                     isActive: $isPresented,
                     label: {
@@ -248,8 +250,13 @@ struct ExpensesSection: View {
                                 TagsComponent(tags: Array(expense.tags as? Set<Tag> ?? Set<Tag>()))
                             }
                         }
+                        .onTapGesture {
+                            print("me", expense.title)
+                        }
+
                     }
                 )
+
             }
             .onDelete(perform: deleteItems)
         }
@@ -258,129 +265,6 @@ struct ExpensesSection: View {
 }
 
 
-final class MonthPickerComponentViewModel: ObservableObject {
-
-    private let onChangeCurrentDate: (Date) -> Void
-    let formatter = DateFormatter()
-
-    private(set) var selectedDate: Date
-
-    init(
-        selectedDate: Date,
-        onChangeCurrentDate: @escaping (Date) -> Void
-    ) {
-        self.onChangeCurrentDate = onChangeCurrentDate
-        self.selectedDate = selectedDate
-    }
-
-
-    func onMonthSelected(month: String) {
-        if let index = formatter.shortMonthSymbols.firstIndex(where: {$0 == month}) {
-            var dateComponents = Calendar.current.dateComponents([.month, .day, .year], from: selectedDate)
-            dateComponents.month = index + 1
-            if let newdate = Calendar.current.date(from: dateComponents) {
-                onChangeCurrentDate(newdate)
-            }
-        }
-    }
-
-    func nextYear() {
-        var dateComponents = Calendar.current.dateComponents([.month, .day, .year], from: selectedDate)
-        dateComponents.year = (dateComponents.year ?? 0) + 1
-        if let newdate = Calendar.current.date(from: dateComponents) {
-            onChangeCurrentDate(newdate)
-        }
-    }
-
-    func previousYear() {
-        var dateComponents = Calendar.current.dateComponents([.month, .day, .year], from: selectedDate)
-        dateComponents.year = (dateComponents.year ?? 0) - 1
-        if let newdate = Calendar.current.date(from: dateComponents) {
-            onChangeCurrentDate(newdate)
-        }
-    }
-}
-
-
-struct MonthPickerComponent: View {
-
-    private let calendar = Calendar.current
-    private let months: [String] = Calendar.current.shortMonthSymbols
-    private var years: CountableRange<Int> = CountableRange<Int>(uncheckedBounds: (lower: 0, upper: 1))
-    private let currentMonthFormatted: String
-    private let currentYearFormatted: String
-
-    @ObservedObject private var viewModel: MonthPickerComponentViewModel
-
-    init(viewModel: MonthPickerComponentViewModel) {
-        self.viewModel = viewModel
-        let start = calendar.component(.year, from: Date.distantPast)
-        let future = calendar.component(.year, from: Date.distantFuture)
-        years = CountableRange<Int>(uncheckedBounds: (lower: start, upper: future))
-
-        currentMonthFormatted = Formatters.onlyMonth.string(for: viewModel.selectedDate) ?? ""
-        currentYearFormatted = Formatters.onlyYear.string(for: viewModel.selectedDate) ?? ""
-    }
-
-    var body: some View {
-
-        VStack {
-            HStack {
-                Button {
-                    viewModel.previousYear()
-                } label: {
-                    Image(systemName: "chevron.left")
-                        .foregroundColor(.blue)
-                        .frame(width: 24.0)
-                }
-
-                Text(currentYearFormatted)
-                    .foregroundColor(.blue).bold()
-                    .transition(.move(edge: .trailing))
-
-                Spacer()
-                Button {
-                    viewModel.nextYear()
-                } label: {
-                    Image(systemName: "chevron.right")
-                        .foregroundColor(.blue)
-                        .frame(width: 24.0)
-                }
-            }
-            .padding(.all, 8)
-            .background(Color.clear)
-
-            ScrollView(.horizontal) {
-                ScrollViewReader { value in
-                    HStack() {
-                        ForEach(months, id: \.self) { item in
-                            Button {
-                                viewModel.onMonthSelected(month: item)
-                            } label: {
-                                Text(item)
-                                    .foregroundColor(
-                                        item == currentMonthFormatted ? Color("TextActive") : Color("Text")
-                                    )
-                                    .padding(8)
-                                    .background(content: {
-                                        item == currentMonthFormatted ? Color("Neutral") : Color.clear
-                                    })
-                                    .cornerRadius(4)
-                                    .id(item)
-                            }
-
-                        }
-                    }
-                    .padding(EdgeInsets(top: 8, leading: 16, bottom: 16, trailing: 8))
-                    .onAppear{
-                        value.scrollTo(currentMonthFormatted)
-                    }
-                }
-            }
-        }
-    }
-
-}
 
 struct TagsComponent: View {
     let tags: [Tag]
@@ -403,12 +287,3 @@ struct TagsComponent: View {
     }
 
 }
-
-
-private let itemFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    formatter.timeStyle = .medium
-    return formatter
-}()
-

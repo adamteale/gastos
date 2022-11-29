@@ -28,26 +28,23 @@ struct AccountDetailView: View {
         NavigationView {
             VStack {
                 HStack {
-                    Button(action: {
-                        isPresented = false
-                    }) {
-                        Image(systemName: "xmark.circle.fill")
+                    Image(systemName: "xmark.circle.fill")
                             .tint(Color("Text"))
                             .font(.system(size: 20.0, weight: .semibold))
-                    }
+                            .onTapGesture {
+                                isPresented = false
+                            }
                     Spacer()
                         .frame(maxWidth:.infinity)
                     if viewModel.account != nil {
-                        Button(action: {
-                            showDeleteConfirmation = true
-                        }
-                        ){
-                            Image(systemName: "trash")
-                                .tint(Color.red)
-                                .onTapGesture {
-                                    showDeleteConfirmation = true
-                                }
-                        }
+                        Image(systemName: "trash")
+                            .tint(Color.red)
+                            .onTapGesture {
+                                showDeleteConfirmation = true
+                            }
+                            .onTapGesture {
+                                showDeleteConfirmation = true
+                            }
                         .confirmationDialog(
                             "Really?",
                             isPresented: $showDeleteConfirmation

@@ -18,6 +18,8 @@
 		0306B7972934EC6800B2FB3A /* TagCloudable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0306B79229341E3500B2FB3A /* TagCloudable.swift */; };
 		0306B7982934EC7700B2FB3A /* AccountDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0306B7862932EB0500B2FB3A /* AccountDetailView.swift */; };
 		0306B7992934EC7900B2FB3A /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0306B7842932EB0500B2FB3A /* AccountViewModel.swift */; };
+		0306B79B293595FF00B2FB3A /* MonthPickerComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0306B79A293595FF00B2FB3A /* MonthPickerComponent.swift */; };
+		0306B79C2935965400B2FB3A /* MonthPickerComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0306B79A293595FF00B2FB3A /* MonthPickerComponent.swift */; };
 		030B1D2529327DDF00495F9E /* Gastos.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0372DC432930F24400F4C1F1 /* Gastos.xcdatamodeld */; };
 		030B1D2629327DDF00495F9E /* CategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0372DC7E29314E3C00F4C1F1 /* CategoryViewModel.swift */; };
 		030B1D2729327DDF00495F9E /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0372DC842931721E00F4C1F1 /* Formatters.swift */; };
@@ -58,6 +60,7 @@
 		0306B78F29341DFB00B2FB3A /* Tag+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tag+Extension.swift"; sourceTree = "<group>"; };
 		0306B79229341E3500B2FB3A /* TagCloudable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCloudable.swift; sourceTree = "<group>"; };
 		0306B7942934517E00B2FB3A /* toshl.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = toshl.json; sourceTree = "<group>"; };
+		0306B79A293595FF00B2FB3A /* MonthPickerComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthPickerComponent.swift; sourceTree = "<group>"; };
 		030B1D3A29327DDF00495F9E /* Gastos MacOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Gastos MacOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0372DC3C2930F24400F4C1F1 /* Gastos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gastos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0372DC3F2930F24400F4C1F1 /* GastosApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GastosApp.swift; sourceTree = "<group>"; };
@@ -202,6 +205,7 @@
 			children = (
 				0372DC842931721E00F4C1F1 /* Formatters.swift */,
 				0306B7892933E96B00B2FB3A /* TagCloudView.swift */,
+				0306B79A293595FF00B2FB3A /* MonthPickerComponent.swift */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -456,6 +460,7 @@
 				030B1D2A29327DDF00495F9E /* ExpenseDetailView.swift in Sources */,
 				0306B79129341DFD00B2FB3A /* Tag+Extension.swift in Sources */,
 				030B1D2B29327DDF00495F9E /* HomeViewModel.swift in Sources */,
+				0306B79C2935965400B2FB3A /* MonthPickerComponent.swift in Sources */,
 				030B1D2C29327DDF00495F9E /* CancelBag.swift in Sources */,
 				030B1D2D29327DDF00495F9E /* GastosApp.swift in Sources */,
 				030B1D2E29327DDF00495F9E /* HomeView.swift in Sources */,
@@ -481,6 +486,7 @@
 				0306B79329341E3500B2FB3A /* TagCloudable.swift in Sources */,
 				0372DC5E2930F34B00F4C1F1 /* HomeViewModel.swift in Sources */,
 				0372DC612931208C00F4C1F1 /* CancelBag.swift in Sources */,
+				0306B79B293595FF00B2FB3A /* MonthPickerComponent.swift in Sources */,
 				0372DC402930F24400F4C1F1 /* GastosApp.swift in Sources */,
 				0306B79029341DFB00B2FB3A /* Tag+Extension.swift in Sources */,
 				0306B78A2933E96B00B2FB3A /* TagCloudView.swift in Sources */,
