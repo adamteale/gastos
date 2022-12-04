@@ -10,7 +10,7 @@ import CloudKit
 import CoreData
 import Combine
 
-struct ExpensesSectionViewArgs: Identifiable {
+struct ExpensesSectionViewArgs: Identifiable, Hashable {
     let id = UUID()
     let date: Date
     let dateFormatted: String
@@ -33,28 +33,30 @@ struct TDump: Decodable{
     let items: [TDumpEntry]
 }
 
-final class ActiceExpense: ObservableObject {
-    @Published var activeExpense: Expense?
+struct HomeViewModelArgs {
+    let managedObjectContext: NSManagedObjectContext
 }
 
 final class HomeViewModel: ObservableObject {
 
     @Published var expensesSections = [ExpensesSectionViewArgs]()
-    @Published var activeExpense: ActiceExpense
+    @Published var activeExpense: Expense?
     @Published var activeCategory: Category?
     @Published var activeTag: Tag?
     @Published var activeAccount: Account?
 
     @Published var selectedDate: Date = Date()
 
-    @Published var isPresentingExpense = false
     @Published var isPresentingCategory = false
     @Published var isPresentingTag = false
     @Published var isPresentingAccount = false
 
     @Published var searchTerm: String = ""
-
     @Published var totalAmount: Double = 0.0
+    @Published var newExpense: Int?
+
+    @Published var mainStack: [HomeCoordinator.Scene] = []
+    @Published var scene: HomeCoordinator.Scene?
 
     let months: [String] = Calendar.current.shortMonthSymbols
 
@@ -80,13 +82,16 @@ final class HomeViewModel: ObservableObject {
     )
 
     private var initialLoadComplete = false
-    
-    init(managedObjectContext: NSManagedObjectContext) {
-        self.managedObjectContext = managedObjectContext
-        self.activeExpense = ActiceExpense()
+
+
+    init(args: HomeViewModelArgs) {
+        self.managedObjectContext = args.managedObjectContext
+
         NotificationCenter.default
-            .publisher(for: .NSManagedObjectContextDidSave,
-                       object: managedObjectContext)
+            .publisher(
+                for: .NSManagedObjectContextDidSave,
+                object: managedObjectContext
+            )
             .sink(receiveValue: { [weak self] notification in
                 self?.onRefresh()
             }).store(in: cancelBag)
@@ -109,7 +114,6 @@ final class HomeViewModel: ObservableObject {
             [$0].forEach(managedObjectContext.delete)
             guard let name = $0.name else { return }
             if tags[name] == nil {
-//                print(name, $0.name)
                 tags[name] = $0
             } else {
                 [$0].forEach(managedObjectContext.delete)
@@ -135,7 +139,7 @@ final class HomeViewModel: ObservableObject {
         do {
             let p = try JSONDecoder().decode(TDump.self, from: data)
 
-            for (index, item) in p.items.enumerated() {
+            for item in p.items {
                 if let name = item.category.first {
 
                     if categories.first(where: { $0.name == name }) == nil {
@@ -149,13 +153,9 @@ final class HomeViewModel: ObservableObject {
                             fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
                         }
                     }
-//                    else {
-//                        print("duplicate category", name, index)
-//                    }
-
                 }
 
-                for (index, tag) in item.tags.enumerated() {
+                for tag in item.tags {
                     if tag != "\n" && !tag.isEmpty && !(tag == " ") && !(tag.count == 0) {
                         if availableTags.first(where: { $0.name == tag }) == nil {
                             print("tag:", tag, tag)
@@ -169,10 +169,6 @@ final class HomeViewModel: ObservableObject {
                                 fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
                             }
                         }
-//                        else {
-//                            print("duplicate tag", tag, index)
-//                        }
-
                     }
 
                 }
@@ -184,9 +180,23 @@ final class HomeViewModel: ObservableObject {
 
     }
 
+    private func removeEmpties() {
+        let expenses_to_delete = expensesRaw.filter {$0.amount == 0 }
+        expenses_to_delete.forEach(managedObjectContext.delete)
+        do {
+            try managedObjectContext.save()
+        } catch {
+            // Replace this implementation with code to handle the error appropriately.
+            // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+            let nsError = error as NSError
+            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+        }
+    }
+
     func onRefresh() {
         do {
             expensesRaw = try managedObjectContext.fetch(expensesFetchRequest)
+                .sorted { $0.date ?? Date() > $1.date ?? Date() }
             categories = try managedObjectContext.fetch(categoriesFetchRequest)
                 .sorted { $0.name?.lowercased() ?? "" < $1.name?.lowercased() ?? "" }
             availableTags = try managedObjectContext.fetch(tagsFetchRequest)
@@ -197,12 +207,10 @@ final class HomeViewModel: ObservableObject {
 
             if !initialLoadComplete {
                 initialLoadComplete = true
-
+//                removeEmpties()
 //                delete()
 //                readJson()
             }
-
-
         } catch {
             print("error:", error)
         }
@@ -210,33 +218,46 @@ final class HomeViewModel: ObservableObject {
     }
 
     func onAddExpense() {
-        activeExpense.activeExpense = nil
-        isPresentingExpense = true
+        activeExpense = nil
+        let scene = HomeCoordinator.Scene.expenseDetail(nil)
+        mainStack.append(scene)
+
+        newExpense = 1
     }
 
     func onAddCategory() {
         activeCategory = nil
-        isPresentingCategory = true
+//        isPresentingCategory = true
+        let scene = HomeCoordinator.Scene.categoryDetail(nil)
+        mainStack.append(scene)
     }
 
     func onAddTag() {
         activeTag = nil
-        isPresentingTag = true
+//        isPresentingTag = true
+        let scene = HomeCoordinator.Scene.tagDetail(nil)
+        mainStack.append(scene)
     }
 
     func onAddAccount() {
         activeAccount = nil
-        isPresentingAccount = true
-    }
-
-    func onEditItem(objectID: NSManagedObjectID) {
-        activeExpense.activeExpense = expensesRaw.first(where: {$0.objectID == objectID})
-        isPresentingExpense = true
+//        isPresentingAccount = true
+        let scene = HomeCoordinator.Scene.accountDetail(nil)
+        mainStack.append(scene)
     }
 
     func onEditItem(_ expense: Expense) {
-        activeExpense.activeExpense = expense
-        isPresentingExpense = true
+        activeExpense = expense
+        let scene = HomeCoordinator.Scene.expenseDetail(expense)
+        mainStack.append(scene)
+    }
+
+    func onSceneChange(scene: HomeCoordinator.Scene) {
+        mainStack.append(scene)
+    }
+
+    func onDidSave() {
+        mainStack.removeLast()
     }
 
     func deleteItems(objectID: NSManagedObjectID) {
@@ -288,6 +309,7 @@ final class HomeViewModel: ObservableObject {
             }
 
         })
+
         expensesSections = Array(k.0.map({ (key: String, value: ExpensesSectionViewArgs) in
             value
         })).sorted { $0.date > $1.date }

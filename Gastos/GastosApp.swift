@@ -9,13 +9,14 @@ import SwiftUI
 
 @main
 struct GastosApp: App {
-    let persistenceController = PersistenceController.shared
+
+    private let injection = Injection.shared
+
+    private let coordinator = HomeCoordinator(container: DIContainer.shared)
 
     var body: some Scene {
         WindowGroup {
-            HomeView(
-                viewModel: HomeViewModel(managedObjectContext: persistenceController.container.viewContext)
-            )
+            coordinator.start()
         }
     }
 }

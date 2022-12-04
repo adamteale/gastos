@@ -17,26 +17,38 @@ struct TagCloudView<T: TagCloudable>: View {
     private var onUpdate: (T) -> Void
     private var onEditTag: (T) -> Void
 
+    private let displayVertically: Bool
+
     init(
         tags: [T],
         currentSelection: [T]?,
         onUpdate: @escaping (T) -> Void,
-        onEditTag: @escaping (T) -> Void
+        onEditTag: @escaping (T) -> Void,
+        displayVertically: Bool
     ) {
         self.tags = tags
         self.currentSelection = currentSelection
         self.onUpdate = onUpdate
         self.onEditTag = onEditTag
+        self.displayVertically = displayVertically
     }
 
     var body: some View {
-        VStack {
-            GeometryReader { geometry in
-                self.generateContent(in: geometry)
+        if (displayVertically) {
+            VStack {
+                GeometryReader { geometry in
+                    self.generateContent(in: geometry)
+                }
             }
+            .frame(height: totalHeight)// << variant for ScrollView/List
+        } else {
+            VStack {
+                GeometryReader { geometry in
+                    self.generateContent(in: geometry)
+                }
+            }
+            .frame(maxHeight: totalHeight) // << variant for VStack
         }
-        .frame(height: totalHeight)// << variant for ScrollView/List
-//           .frame(maxHeight: totalHeight) // << variant for VStack
     }
 
     private func generateContent(in g: GeometryProxy) -> some View {
