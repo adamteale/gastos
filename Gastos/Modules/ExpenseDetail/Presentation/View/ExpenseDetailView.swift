@@ -46,7 +46,6 @@ struct ExpenseDetailView: View {
                             value: $viewModel.amount,
                             format: .number
                         )
-                        .multilineTextAlignment(.leading)
 #if os(iOS)
                         .fontWeight(.heavy)
                         .font(.system(size: 60))
@@ -71,7 +70,6 @@ struct ExpenseDetailView: View {
                     text: $viewModel.title,
                     axis: .vertical
                 )
-                .multilineTextAlignment(.leading)
                 .font(.system(size: 40))
                 .focused($titleIsFocused)
                 .onSubmit {
@@ -170,7 +168,7 @@ struct ExpenseDetailView: View {
         }
         .navigationDestination(for: HomeCoordinator.Scene.self, destination: { scene in
             switch scene {
-            case .expenseDetail(let expense):
+            case .expenseDetail:
                 Group{}
             case .categoryDetail(let category):
                 CategoryDetailView(
@@ -178,8 +176,7 @@ struct ExpenseDetailView: View {
                         category: category,
                         categories: viewModel.availableCategories,
                         managedObjectContext: viewModel.managedObjectContext
-                    ),
-                    isPresented: $viewModel.isPresentingCategory
+                    )
                 )
 
             case .tagDetail(let tag):
@@ -188,8 +185,7 @@ struct ExpenseDetailView: View {
                         tag: tag,
                         tags: viewModel.availableTags,
                         managedObjectContext: viewModel.managedObjectContext
-                    ),
-                    isPresented: $viewModel.isPresentingTag
+                    )
                 )
             case .accountDetail(let account):
                 AccountDetailView(
@@ -197,11 +193,11 @@ struct ExpenseDetailView: View {
                         account: account,
                         accounts: viewModel.availableAccounts,
                         managedObjectContext: viewModel.managedObjectContext
-                    ),
-                    isPresented: $viewModel.isPresentingAccount
+                    )
                 )
             }
         })
+        .navigationTitle("Gasto")
         .toolbar {
 
             ToolbarItem {
@@ -265,36 +261,6 @@ struct ExpenseDetailView: View {
         .onDisappear {
             viewModel.onSave()
         }
-//        .sheet(isPresented: $viewModel.isPresentingCategory) {
-//            CategoryDetailView(
-//                viewModel: CategoryDetailViewModel(
-//                    category: viewModel.activeCategory,
-//                    categories: viewModel.availableCategories,
-//                    managedObjectContext: viewModel.managedObjectContext
-//                ),
-//                isPresented: $viewModel.isPresentingCategory
-//            )
-//        }
-//        .sheet(isPresented: $viewModel.isPresentingTag) {
-//            TagDetailView(
-//                viewModel: TagDetailViewModel(
-//                    tag: viewModel.activeTag,
-//                    tags: viewModel.availableTags,
-//                    managedObjectContext: viewModel.managedObjectContext
-//                ),
-//                isPresented: $viewModel.isPresentingTag
-//            )
-//        }
-//        .sheet(isPresented: $viewModel.isPresentingAccount) {
-//            AccountDetailView(
-//                viewModel: AccountDetailViewModel(
-//                    account: viewModel.activeAccount,
-//                    accounts: viewModel.availableAccounts,
-//                    managedObjectContext: viewModel.managedObjectContext
-//                ),
-//                isPresented: $viewModel.isPresentingAccount
-//            )
-//        }
 
     }
 }

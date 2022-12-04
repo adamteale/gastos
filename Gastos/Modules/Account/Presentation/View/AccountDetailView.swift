@@ -11,16 +11,13 @@ import SwiftUI
 struct AccountDetailView: View {
 
     @ObservedObject private var viewModel: AccountDetailViewModel
-    @Binding var isPresented: Bool
     @FocusState private var titleIsFocused: Bool
     @State private var showDeleteConfirmation = false
 
     init(
-        viewModel: AccountDetailViewModel,
-        isPresented: Binding<Bool>
+        viewModel: AccountDetailViewModel
     ) {
         self.viewModel = viewModel
-        self._isPresented = isPresented // "_" how dumb!
         self.titleIsFocused = true
     }
 
@@ -28,12 +25,6 @@ struct AccountDetailView: View {
         NavigationView {
             VStack {
                 HStack {
-                    Image(systemName: "xmark.circle.fill")
-                            .tint(Color("Text"))
-                            .font(.system(size: 20.0, weight: .semibold))
-                            .onTapGesture {
-                                isPresented = false
-                            }
                     Spacer()
                         .frame(maxWidth:.infinity)
                     if viewModel.account != nil {
@@ -59,9 +50,7 @@ struct AccountDetailView: View {
                 }
                 Spacer()
                 TextField("Name", text: $viewModel.name).onSubmit {
-                    viewModel.onUpdate {
-                        isPresented = false
-                    }
+                    viewModel.onUpdate()
                 }
                 .multilineTextAlignment(.center)
                 .font(.system(size: 40))
@@ -107,19 +96,8 @@ struct AccountDetailView: View {
             .onAppear{
                 titleIsFocused = true
             }
-
         }
-        .sheet(isPresented: $viewModel.isPresentingAccount) {
-            AccountDetailView(
-                viewModel: AccountDetailViewModel(
-                    account: viewModel.activeAccount,
-                    accounts: viewModel.accounts,
-                    managedObjectContext: viewModel.managedObjectContext
-                ),
-                isPresented: $viewModel.isPresentingAccount
-            )
-        }
-
+        .navigationTitle("Accounts")
     }
 
 }

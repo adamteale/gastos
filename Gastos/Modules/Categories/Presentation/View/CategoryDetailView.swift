@@ -11,16 +11,13 @@ import SwiftUI
 struct CategoryDetailView: View {
 
     @ObservedObject private var viewModel: CategoryDetailViewModel
-    @Binding var isPresented: Bool
     @FocusState private var titleIsFocused: Bool
     @State private var showDeleteConfirmation = false
 
     init(
-        viewModel: CategoryDetailViewModel,
-        isPresented: Binding<Bool>
+        viewModel: CategoryDetailViewModel
     ) {
         self.viewModel = viewModel
-        self._isPresented = isPresented // "_" how dumb!
         self.titleIsFocused = true
     }
 
@@ -28,12 +25,12 @@ struct CategoryDetailView: View {
         NavigationView {
             VStack {
                 HStack {
-                    Image(systemName: "xmark.circle.fill")
-                        .tint(Color("Text"))
-                        .font(.system(size: 20.0, weight: .semibold))
-                        .onTapGesture {
-                            isPresented = false
-                        }
+//                    Image(systemName: "xmark.circle.fill")
+//                        .tint(Color("Text"))
+//                        .font(.system(size: 20.0, weight: .semibold))
+//                        .onTapGesture {
+//                            isPresented = false
+//                        }
                     Spacer()
                         .frame(maxWidth:.infinity)
                     if viewModel.category != nil {
@@ -59,9 +56,7 @@ struct CategoryDetailView: View {
                 }
                 Spacer()
                 TextField("Name", text: $viewModel.name).onSubmit {
-                    viewModel.onUpdate {
-                        isPresented = false
-                    }
+                    viewModel.onUpdate()
                 }
                 .multilineTextAlignment(.center)
                 .font(.system(size: 40))
@@ -109,14 +104,14 @@ struct CategoryDetailView: View {
             }
 
         }
+        .navigationTitle("Categories")
         .sheet(isPresented: $viewModel.isPresentingCategory) {
             CategoryDetailView(
                 viewModel: CategoryDetailViewModel(
                     category: viewModel.activeCategory,
                     categories: viewModel.categories,
                     managedObjectContext: viewModel.managedObjectContext
-                ),
-                isPresented: $viewModel.isPresentingCategory
+                )
             )
         }
 

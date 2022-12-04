@@ -35,7 +35,7 @@ final class TagDetailViewModel: ObservableObject {
         name = tag?.name ?? ""
     }
 
-    func onUpdate(onSuccess: () -> Void) {
+    func onUpdate() {
         // check if Tag with the same name already exists
         if (self.tags.first(where: { $0.name?.lowercased() == name.lowercased() }) != nil) {
             alreadyExists = true
@@ -51,7 +51,6 @@ final class TagDetailViewModel: ObservableObject {
             }
             do {
                 try managedObjectContext.save()
-                onSuccess()
             } catch {
                 // Replace this implementation with code to handle the error appropriately.
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.

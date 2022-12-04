@@ -96,7 +96,7 @@ struct HomeView: View {
                     Image(systemName: "plus")
                         .resizable()
                         .frame(width: 40, height: 40)
-                        .tint(Color.white)
+                        .foregroundColor(Color.white)
                         .padding()
                         .background {
                             Color.blue
@@ -105,7 +105,6 @@ struct HomeView: View {
                         .onTapGesture {
                             viewModel.onAddExpense()
                         }
-
                 }
                 .padding()
 
@@ -136,8 +135,7 @@ struct HomeView: View {
                             category: category,
                             categories: viewModel.categories,
                             managedObjectContext: viewModel.managedObjectContext
-                        ),
-                        isPresented: $viewModel.isPresentingCategory
+                        )
                     )
 
                 case .tagDetail(let tag):
@@ -146,8 +144,7 @@ struct HomeView: View {
                             tag: tag,
                             tags: viewModel.availableTags,
                             managedObjectContext: viewModel.managedObjectContext
-                        ),
-                        isPresented: $viewModel.isPresentingTag
+                        )
                     )
                 case .accountDetail(let account):
                     AccountDetailView(
@@ -155,12 +152,16 @@ struct HomeView: View {
                             account: account,
                             accounts: viewModel.accounts,
                             managedObjectContext: viewModel.managedObjectContext
-                        ),
-                        isPresented: $viewModel.isPresentingAccount
+                        )
                     )
                 }
             })
             .toolbar {
+#if os(iOS)
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Text("Gastos").font(.system(size: 20)).fontWeight(.heavy)
+                }
+#endif
                 ToolbarItem {
                     Button(action: viewModel.onAddAccount) {
                         Label("Add Account", systemImage: "creditcard")
@@ -187,37 +188,6 @@ struct HomeView: View {
         .refreshable {
             viewModel.onRefresh()
         }
-        .sheet(isPresented: $viewModel.isPresentingCategory) {
-            CategoryDetailView(
-                viewModel: CategoryDetailViewModel(
-                    category: viewModel.activeCategory,
-                    categories: viewModel.categories,
-                    managedObjectContext: viewModel.managedObjectContext
-                ),
-                isPresented: $viewModel.isPresentingCategory
-            )
-        }
-        .sheet(isPresented: $viewModel.isPresentingTag) {
-            TagDetailView(
-                viewModel: TagDetailViewModel(
-                    tag: viewModel.activeTag,
-                    tags: viewModel.availableTags,
-                    managedObjectContext: viewModel.managedObjectContext
-                ),
-                isPresented: $viewModel.isPresentingTag
-            )
-        }
-        .sheet(isPresented: $viewModel.isPresentingAccount) {
-            AccountDetailView(
-                viewModel: AccountDetailViewModel(
-                    account: viewModel.activeAccount,
-                    accounts: viewModel.accounts,
-                    managedObjectContext: viewModel.managedObjectContext
-                ),
-                isPresented: $viewModel.isPresentingAccount
-            )
-        }
-
     }
 
     private func toggleSearch() {

@@ -11,16 +11,13 @@ import SwiftUI
 struct TagDetailView: View {
 
     @ObservedObject private var viewModel: TagDetailViewModel
-    @Binding var isPresented: Bool
     @FocusState private var titleIsFocused: Bool
     @State private var showDeleteConfirmation = false
 
     init(
-        viewModel: TagDetailViewModel,
-        isPresented: Binding<Bool>
+        viewModel: TagDetailViewModel
     ) {
         self.viewModel = viewModel
-        self._isPresented = isPresented // "_" how dumb!
         self.titleIsFocused = true
     }
 
@@ -28,12 +25,6 @@ struct TagDetailView: View {
         NavigationView {
             VStack {
                 HStack {
-                    Image(systemName: "xmark.circle.fill")
-                        .tint(Color("Text"))
-                        .font(.system(size: 20.0, weight: .semibold))
-                        .onTapGesture {
-                            isPresented = false
-                        }
                     Spacer()
                         .frame(maxWidth:.infinity)
 
@@ -62,9 +53,7 @@ struct TagDetailView: View {
                 Spacer()
 
                 TextField("Name", text: $viewModel.name).onSubmit {
-                    viewModel.onUpdate {
-                        isPresented = false
-                    }
+                    viewModel.onUpdate()
                 }
                 .multilineTextAlignment(.center)
                 .font(.system(size: 40))
@@ -112,14 +101,14 @@ struct TagDetailView: View {
             }
 
         }
+        .navigationTitle("Tags")
         .sheet(isPresented: $viewModel.isPresentingTag) {
             TagDetailView(
                 viewModel: TagDetailViewModel(
                     tag: viewModel.activeTag,
                     tags: viewModel.tags,
                     managedObjectContext: viewModel.managedObjectContext
-                ),
-                isPresented: $viewModel.isPresentingTag
+                )
             )
         }
 

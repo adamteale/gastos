@@ -94,8 +94,8 @@
             filePath = "Gastos/Modules/Account/Presentation/ViewModel/AccountViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "79"
-            endingLineNumber = "79"
+            startingLineNumber = "78"
+            endingLineNumber = "78"
             landmarkName = "onEditItem(at:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -263,38 +263,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "542F0A2F-A7DC-4026-82F0-08A0BE972474"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Gastos/Modules/Categories/Presentation/View/CategoryDetailView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "24"
-            endingLineNumber = "24"
-            landmarkName = "init(viewModel:isPresented:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "2A6B32DF-D77E-4B96-BB58-B98AD14710AE"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Gastos/Modules/Categories/Presentation/ViewModel/CategoryViewModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "79"
-            endingLineNumber = "79"
-            landmarkName = "onEditItem(at:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "D3814FAE-0949-446D-B08B-54B53C8F51CF"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -302,8 +270,8 @@
             filePath = "Gastos/Modules/Categories/Presentation/View/CategoryDetailView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "108"
-            endingLineNumber = "108"
+            startingLineNumber = "103"
+            endingLineNumber = "103"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -318,8 +286,8 @@
             filePath = "Gastos/Modules/Categories/Presentation/View/CategoryDetailView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "113"
-            endingLineNumber = "113"
+            startingLineNumber = "109"
+            endingLineNumber = "109"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -404,34 +372,34 @@
             landmarkType = "24">
             <Locations>
                <Location
-                  uuid = "8E6E04F6-7295-4063-AB71-A1A8964D5E45 - e1c2e24b7f3e1488"
+                  uuid = "8E6E04F6-7295-4063-AB71-A1A8964D5E45 - b08b4681ef9ddcb7"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "Gastos.ExpenseRow.body.getter : some"
-                  moduleName = "Gastos"
+                  symbolName = "Gastos_MacOS.ExpenseRow.body.getter : some"
+                  moduleName = "Gastos MacOS"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/adamteale/code/Gastos/Gastos/Modules/Home/Presentation/View/ExpenseRow.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "16"
                   endingLineNumber = "16"
-                  offsetFromSymbolStart = "212">
+                  offsetFromSymbolStart = "292">
                </Location>
                <Location
-                  uuid = "8E6E04F6-7295-4063-AB71-A1A8964D5E45 - ee3855fc302e9ba2"
+                  uuid = "8E6E04F6-7295-4063-AB71-A1A8964D5E45 - 63e1f4f860611f3a"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; SwiftUI.TupleView&lt;(&lt;&lt;opaque return type of SwiftUI.View.fontWeight(Swift.Optional&lt;SwiftUI.Font.Weight&gt;) -&gt; some&gt;&gt;.0, SwiftUI.HStack&lt;SwiftUI.TupleView&lt;(SwiftUI.Text, SwiftUI.Text)&gt;&gt;, SwiftUI.Text, &lt;&lt;opaque return type of SwiftUI.View.cornerRadius(_: CoreGraphics.CGFloat, antialiased: Swift.Bool) -&gt; some&gt;&gt;.0, Gastos.TagCloudView&lt;Gastos.Tag&gt;)&gt; in Gastos.ExpenseRow.body.getter : some"
-                  moduleName = "Gastos"
+                  symbolName = "closure #1 () -&gt; SwiftUI.TupleView&lt;(&lt;&lt;opaque return type of SwiftUI.View.font(Swift.Optional&lt;SwiftUI.Font&gt;) -&gt; some&gt;&gt;.0, SwiftUI.HStack&lt;SwiftUI.TupleView&lt;(SwiftUI.Text, SwiftUI.Text)&gt;&gt;, SwiftUI.Text, &lt;&lt;opaque return type of SwiftUI.View.cornerRadius(_: CoreGraphics.CGFloat, antialiased: Swift.Bool) -&gt; some&gt;&gt;.0, Gastos_MacOS.TagCloudView&lt;Gastos_MacOS.Tag&gt;)&gt; in Gastos_MacOS.ExpenseRow.body.getter : some"
+                  moduleName = "Gastos MacOS"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/adamteale/code/Gastos/Gastos/Modules/Home/Presentation/View/ExpenseRow.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "17"
                   endingLineNumber = "17"
-                  offsetFromSymbolStart = "492">
+                  offsetFromSymbolStart = "500">
                </Location>
             </Locations>
          </BreakpointContent>

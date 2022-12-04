@@ -93,7 +93,7 @@ struct TagCloudView<T: TagCloudable>: View {
                     (currentSelection ?? []).contains(where: { aT in
                         tag.objectID == aT.objectID
                     }) ?
-                    Color("TextActive") : Color("Text").opacity(0.5)
+                    Color.white : Color("Text")
                 )
                 .background {
                     (currentSelection ?? []).contains(where: { aT in
